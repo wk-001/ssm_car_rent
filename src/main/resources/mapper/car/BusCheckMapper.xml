@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.car.dao.BusCheckMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wk.car.pojo.BusCheck">
+        <id column="checkid" property="checkid" />
+        <result column="checkdate" property="checkdate" />
+        <result column="checkdesc" property="checkdesc" />
+        <result column="problem" property="problem" />
+        <result column="paymoney" property="paymoney" />
+        <result column="opername" property="opername" />
+        <result column="rentid" property="rentid" />
+        <result column="createtime" property="createtime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        checkid, checkdate, checkdesc, problem, paymoney, opername, rentid, createtime
+    </sql>
+
+</mapper>

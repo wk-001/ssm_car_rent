@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/mvc    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <!--sprimgMVC的配置文件，包含网址跳转逻辑的控制-->
+
+    <!--只扫描controller层的注解-->
+    <context:component-scan base-package="com.wk.sys.controller"/>
+
+    <!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--使静态资源可以访问（标配，必须写）-->
+    <mvc:default-servlet-handler/>
+
+    <!--注解驱动，以使得访问路径与方法的匹配可以通过注解配置（标配，必须写）-->
+    <mvc:annotation-driven/>
+</beans>

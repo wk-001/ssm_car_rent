@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.car.dao.BusRentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wk.car.pojo.BusRent">
+        <id column="rentid" property="rentid" />
+        <result column="price" property="price" />
+        <result column="begindate" property="begindate" />
+        <result column="returndate" property="returndate" />
+        <result column="rentflag" property="rentflag" />
+        <result column="identity" property="identity" />
+        <result column="carnumber" property="carnumber" />
+        <result column="opername" property="opername" />
+        <result column="createtime" property="createtime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        rentid, price, begindate, returndate, rentflag, identity, carnumber, opername, createtime
+    </sql>
+
+</mapper>

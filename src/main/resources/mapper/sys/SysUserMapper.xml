@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.sys.dao.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wk.sys.pojo.SysUser">
+        <id column="userid" property="userid" />
+        <result column="loginname" property="loginname" />
+        <result column="identity" property="identity" />
+        <result column="realname" property="realname" />
+        <result column="sex" property="sex" />
+        <result column="address" property="address" />
+        <result column="phone" property="phone" />
+        <result column="pwd" property="pwd" />
+        <result column="position" property="position" />
+        <result column="type" property="type" />
+        <result column="available" property="available" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        userid, loginname, identity, realname, sex, address, phone, pwd, position, type, available
+    </sql>
+
+</mapper>

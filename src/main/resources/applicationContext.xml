@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context    http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop   http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx    http://www.springframework.org/schema/tx/spring-tx.xsd ">
+
+    <!--Spring的配置文件，主要配置和业务逻辑相关的，如数据源，事务控制等-->
+
+    <!--扫描除controller以外的包-->
+    <context:component-scan base-package="com.wk.sys,com.wk.car">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--导入资源文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${dataSource.username}"></property>
+        <property name="password" value="${dataSource.password}"></property>
+        <property name="driverClassName" value="${dataSource.driverClass}"></property>
+        <property name="url" value="${dataSource.jdbcUrl}"></property>
+
+        <!-- 初始化连接大小 -->
+        <property name="initialSize" value="0"></property>
+        <!-- 连接池最大使用连接数量 -->
+        <property name="maxActive" value="20"></property>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="0" />
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="60000" />
+
+        <property name="validationQuery">
+            <value>SELECT 1</value>
+        </property>
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <property name="testWhileIdle" value="true" />
+
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="25200000" />
+
+        <!-- 打开removeAbandoned功能 -->
+        <property name="removeAbandoned" value="true" />
+        <!-- 1800秒，也就是30分钟 -->
+        <property name="removeAbandonedTimeout" value="1800" />
+        <!-- 关闭abanded连接时输出错误日志 -->
+        <property name="logAbandoned" value="true" />
+
+        <!-- 监控数据库 -->
+        <!-- <property name="filters" value="stat" /> -->
+        <property name="filters" value="mergeStat" />
+    </bean>
+
+
+    <!--Mybatis配置-->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+        <!--引用数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--指定mapper.xml文件位置-->
+        <property name="mapperLocations" value="classpath:mapper/*/*Mapper.xml"/>
+        <!-- 配置分页插件 -->
+        <property name="plugins">
+            <array>  <!--pageHelper分页-->
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <value>
+                            reasonable=true
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <!--扫描器，将mapper接口的实现类加入到IOC容器中-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--扫描所有dao接口，并加入到IOC容器中-->
+        <property name="basePackage" value="com.wk.sys.dao,com.wk.car.dao"/>
+    </bean>
+
+    <!--事务管理器-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--控制数据源，把数据提交给数据库-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--配置声明式事务-->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <!-- 声明具体哪些方法中有事务控制，支持通配符 -->
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="create*" propagation="REQUIRED" />
+            <tx:method name="delete*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+            <tx:method name="select*" propagation="SUPPORTS" read-only="true" />
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置AOP切点-->
+    <aop:config>
+        <!-- 声明式事务是基于advice通知，所以需要声明切点，范围 service实现类中所有方法 -->
+        <aop:pointcut id="txPoint1" expression="execution(* com.wk.sys.service.impl..*(..))"/>
+        <aop:pointcut id="txPoint2" expression="execution(* com.wk.car.service.impl..*(..))"/>
+        <!--引用声明式事务-->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPoint1"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPoint2"/>
+    </aop:config>
+</beans>

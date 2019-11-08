@@ -1,0 +1,94 @@
+{
+    "data": [
+        {
+            "checkArr": "[{"type": "0", "checked": "0"}]",
+            "children": [
+                {
+                    "checkArr": "[{"type": "0", "checked": "0"}]",
+                    "children": [],
+                    "id": "001001",
+                    "parentId": "001",
+                    "rdesc": "管理所有产品部门组员",
+                    "title": "产品主管"
+                }
+            ],
+            "id": "001",
+            "parentId": "0",
+            "rdesc": "管理整个公司产品部门",
+            "title": "产品经理"
+        },
+        {
+            "checkArr": "[{"type": "0", "checked": "0"}]",
+            "children": [
+                {
+                    "checkArr": "[{"type": "0", "checked": "0"}]",
+                    "children": [
+                        {
+                            "checkArr": "[{"type": "0", "checked": "0"}]",
+                            "children": [],
+                            "id": "002001001",
+                            "parentId": "002001",
+                            "rdesc": "协同开发人员一同完成产品开发",
+                            "title": "开发人员"
+                        }
+                    ],
+                    "id": "002001",
+                    "parentId": "002",
+                    "rdesc": "管理所有技术研发",
+                    "title": "技术主管"
+                }
+            ],
+            "id": "002",
+            "parentId": "0",
+            "rdesc": "担任整个公司产品研发",
+            "title": "技术总监"
+        },
+        {
+            "checkArr": "[{"type": "0", "checked": "0"}]",
+            "children": [
+                {
+                    "checkArr": "[{"type": "0", "checked": "0"}]",
+                    "children": [
+                        {
+                            "checkArr": "[{"type": "0", "checked": "0"}]",
+                            "children": [],
+                            "id": "003001001",
+                            "parentId": "003001",
+                            "rdesc": "协同销售一组长做好销售工作",
+                            "title": "销售一组组员"
+                        }
+                    ],
+                    "id": "003001",
+                    "parentId": "003",
+                    "rdesc": "管理销售一组组员做好销售工作",
+                    "title": "销售一组"
+                },
+                {
+                    "checkArr": "[{"type": "0", "checked": "0"}]",
+                    "children": [
+                        {
+                            "checkArr": "[{"type": "0", "checked": "0"}]",
+                            "children": [],
+                            "id": "003002001",
+                            "parentId": "003002",
+                            "rdesc": "协同销售二组长做好销售工作",
+                            "title": "销售二组组员"
+                        }
+                    ],
+                    "id": "003002",
+                    "parentId": "003",
+                    "rdesc": "管理销售二组组员做好销售工作",
+                    "title": "销售二组"
+                }
+            ],
+            "id": "003",
+            "parentId": "0",
+            "rdesc": "管理所有销售",
+            "title": "销售经理"
+        }
+    ],
+    "status": {
+        "code": 200,
+        "message": "操作成功"
+    }
+}
