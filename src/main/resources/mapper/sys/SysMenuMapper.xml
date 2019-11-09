@@ -18,5 +18,19 @@
     <sql id="Base_Column_List">
         id, pid, title, href, spread, target, icon, available
     </sql>
+    <select id="queryMenuList" resultType="com.wk.sys.pojo.SysMenu" parameterType="com.wk.sys.pojo.SysMenu">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu
+        <where>
+            <if test="title!=null and title!=''">
+                <bind name="title" value=" '%' + title + '%' "/>
+                and title like #{title}
+            </if>
+            <if test="available!=null and available!=''">
+                and available = #{available}
+            </if>
+        </where>
+    </select>
 
 </mapper>

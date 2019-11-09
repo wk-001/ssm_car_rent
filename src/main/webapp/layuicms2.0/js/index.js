@@ -1,8 +1,8 @@
 var $,tab,dataStr,layer;
 layui.config({
-	base : "js/"
+	base : "layuicms2.0/js/"
 }).extend({
-	"bodyTab" : "bodyTab"
+	"bodyTab" : "bodyTab"		//引入核心bodyTab模块；作用：点击左侧侧边栏菜单，在右侧打开新的窗口
 })
 layui.use(['bodyTab','form','element','layer','jquery'],function(){
 	var form = layui.form,
@@ -11,11 +11,20 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
     	layer = parent.layer === undefined ? layui.layer : top.layer;
 		tab = layui.bodyTab({
 			openTabNum : "50",  //最大可打开窗口数量
-			url : "layuicms2.0/json/navs.json" //获取菜单json地址
+			url : "/menu/initLeftMenu" //获取菜单json地址
 		});
 
-	//通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
+	//初始化左侧菜单
 	function getData(json){
+		$.getJSON(tab.tabConfig.url,function(data){
+			dataStr = data;
+			//重新渲染左侧菜单
+			tab.render();
+		})
+	}
+
+	//通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
+	/*function getData(json){
 		$.getJSON(tab.tabConfig.url,function(data){
             if(json == "carRent"){
                 dataStr = data.carRent;
@@ -39,7 +48,7 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
                 tab.render();
             }
 		})
-	}
+	}*/
 	//页面加载时判断左侧菜单是否显示
 	//通过顶部菜单获取左侧菜单
 	$(".topLevelMenus li,.mobileTopLevelMenus dd").click(function(){
@@ -143,29 +152,4 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
 //打开新窗口
 function addTab(_this){
 	tab.tabAdd(_this);
-}
-
-//捐赠弹窗
-function donation(){
-	layer.tab({
-		area : ['260px', '367px'],
-		tab : [{
-			title : "微信",
-			content : "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img src='images/wechat.jpg'></div>"
-		},{
-			title : "支付宝",
-			content : "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img src='images/alipay.jpg'></div>"
-		}]
-	})
-}
-
-//图片管理弹窗
-function showImg(){
-    $.getJSON('json/images.json', function(json){
-        var res = json;
-        layer.photos({
-            photos: res,
-            anim: 5
-        });
-    });
 }
