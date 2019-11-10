@@ -15,7 +15,7 @@ public class TreeNode {
 
     private Integer id;
 
-    @JsonProperty("parentId")
+    @JsonProperty("parentId")       //pid名称序列化为parentId
     private Integer pid;            //父节点ID
 
     private String title;

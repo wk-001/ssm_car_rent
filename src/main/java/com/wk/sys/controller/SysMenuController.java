@@ -5,6 +5,7 @@ import com.wk.sys.constast.SysConstast;
 import com.wk.sys.pojo.SysMenu;
 import com.wk.sys.pojo.SysUser;
 import com.wk.sys.service.SysMenuService;
+import com.wk.sys.utils.DataGrid;
 import com.wk.sys.utils.TreeNode;
 import com.wk.sys.utils.TreeNodeUtils;
 import com.wk.sys.utils.WebUtils;
@@ -45,7 +46,8 @@ public class SysMenuController {
         }
 
         //把list中的数据放入到nodes中
-        List<TreeNode> nodes = new ArrayList<>();
+        List<TreeNode> nodes = getTreeNodeList(list);
+        /*List<TreeNode> nodes = new ArrayList<>();
         for (SysMenu menu : list) {
             Integer id = menu.getId();
             Integer pid = menu.getPid();
@@ -55,12 +57,47 @@ public class SysMenuController {
             Boolean spread = menu.getSpread()==SysConstast.SPREAD_TRUE?true:false;
             String target = menu.getTarget();
             nodes.add(new TreeNode(id,pid,title,icon,href,spread,target));
-        }
+        }*/
 
         Integer topPid = 1;     //设置父节点
         return TreeNodeUtils.builder(nodes,topPid);
 
     }
 
+    /**
+     * 菜单管理需要的菜单树
+     */
+    @RequestMapping("menuTree")
+    public DataGrid menuTree(SysMenuVo sysMenuVo){
+        sysMenuVo.setAvailable(SysConstast.AVAILABLE_TRUE);     //查询可用状态的菜单
+        List<SysMenu> list = sysMenuService.queryMenuList(sysMenuVo);
+        List<TreeNode> nodes = getTreeNodeList(list);
+        return new DataGrid(nodes);
+    }
+
+    /**
+     * 菜单数据表格
+     */
+    @RequestMapping("menuDataList")
+    public DataGrid menuDataList(SysMenuVo sysMenuVo){
+        sysMenuVo.setAvailable(SysConstast.AVAILABLE_TRUE);     //查询可用状态的菜单
+        return sysMenuService.queryAllMenu(sysMenuVo);
+    }
+
+
+    private List<TreeNode> getTreeNodeList(List<SysMenu> list) {
+        List<TreeNode> nodes = new ArrayList<>();
+        for (SysMenu menu : list) {
+            Integer id = menu.getId();
+            Integer pid = menu.getPid();
+            String title = menu.getTitle();
+            String icon = menu.getIcon();
+            String href = menu.getHref();
+            Boolean spread = menu.getSpread()== SysConstast.SPREAD_TRUE?true:false;
+            String target = menu.getTarget();
+            nodes.add(new TreeNode(id,pid,title,icon,href,spread,target));
+        }
+        return nodes;
+    }
 
 }

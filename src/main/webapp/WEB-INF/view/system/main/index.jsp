@@ -118,7 +118,7 @@
     </div>
     <!-- 底部 -->
     <div class="layui-footer footer">
-        <p><span>copyright @2018 超级管理员</span>　　<a onclick="donation()" class="layui-btn layui-btn-danger layui-btn-sm">捐赠作者</a></p>
+        <p><span>copyright @2018 超级管理员</span></p>
     </div>
 </div>
 

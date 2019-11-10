@@ -2,6 +2,7 @@ package com.wk.sys.service;
 
 import com.wk.sys.pojo.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wk.sys.utils.DataGrid;
 import com.wk.sys.vo.SysMenuVo;
 
 import java.util.List;
@@ -29,4 +30,11 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return
      */
     List<SysMenu> queryMenuListByUserId(SysMenuVo sysMenuVo,Integer userId);
+
+    /**
+     * 查询所有菜单并分页
+     * @param sysMenuVo
+     * @return
+     */
+    DataGrid queryAllMenu(SysMenuVo sysMenuVo);
 }

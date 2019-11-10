@@ -30,6 +30,9 @@
             <if test="available!=null and available!=''">
                 and available = #{available}
             </if>
+            <if test="id!=null and id!=''">
+                and (id = #{id} or pid = #{id})
+            </if>
         </where>
     </select>
 
