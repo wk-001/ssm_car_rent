@@ -47,7 +47,10 @@ public interface SysConstast {
 
 	Integer CODE_SUCCESS=0; //操作成功
 	Integer CODE_ERROR=-1;//失败
-	
+
+	String OPERAT_SUCCESS="操作成功";
+	String OPERAT_FAIL ="操作失败";
+
 	
 
 }

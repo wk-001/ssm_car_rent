@@ -45,4 +45,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> list = sysMenuMapper.queryMenuList(sysMenuVo);
         return new DataGrid(page.getTotal(),list);
     }
+
+    @Override
+    public int addMenu(SysMenuVo sysMenuVo) {
+        return sysMenuMapper.insert(sysMenuVo);
+    }
 }

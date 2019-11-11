@@ -76,9 +76,9 @@
                     <div class="layui-input-block">
                         <div class="layui-unselect layui-form-select" id="pid_div">
                             <div class="layui-select-title">
-                                <input type="hidden" name="pid" id="pid">
-                                <input type="text" name="pid_str" id="pid_str" placeholder="请选择" readonly="" class="layui-input layui-unselect">
-                                <i class="layui-edge"></i>
+                                <input type="text" name="pid" id="pid">
+                                <%--<input type="text" name="pid_str" id="pid_str" placeholder="请选择" readonly="" class="layui-input layui-unselect">--%>
+                                <ul id="pid_str" class="dtree" data-id="0" ></ul>
                             </div>
                         </div>
                     </div>
@@ -312,10 +312,10 @@
                 ,success:function (index) {
                     //在弹出层加载成功后的回调方法中去掉最小化按钮；
                     index.find('.layui-layer-min').remove();
-
+                    $(".layui-card").removeClass("dtree-select-show");  //打开弹窗关闭下拉树
                     //打开弹窗清空整个form表单,jquery对象获取的是所有对象的数组，数组中是dom对象，dom对象才有reset();方法
                     $("#dataForm")[0].reset();
-                    url = "/menu/add";
+                    url = "<%=basePath%>menu/add";
                 }
             });
         }
@@ -331,10 +331,10 @@
                 ,success:function (index) {         //弹窗成功后回调
                     //在弹出层加载成功后的回调方法中去掉最小化按钮；
                     index.find('.layui-layer-min').remove();
-
+                    $(".layui-card").removeClass("dtree-select-show");  //打开弹窗关闭下拉树
                     //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
                     form.val("dataForm",data);
-                    url = "/menu/update";
+                    url = "<%=basePath%>menu/update";
                 }
             });
         }
@@ -345,28 +345,39 @@
             var params = $("#dataForm").serialize();
             layer.msg(params);
             $.post(url,params,function (obj) {
-                layer.msg(obj);
+                layer.msg(obj.msg);
                 //关闭弹窗
                 layer.close(mainModel);
+                //刷新左侧菜单树
+                window.parent.left.menuTree.reload();
+                window.parent.left.menuTree.reload();
+                //刷新添加弹窗的下拉树
+                parentTree.reload();
                 // 刷新数据表格
                 tableIns.reload();      //在不刷新页面的情况刷新表格数据
             })
         })
 
         //下拉树
-        dtree.renderSelect({
+        var parentTree = dtree.renderSelect({
             elem: "#pid_str",
-            url: "<%=basePath%>layuicms2.0/layui_ext/json/case/asyncTree11.json",
-            selectTips: "请选择父级菜单",
+            url: "<%=basePath%>menu/menuTree?spread=1",
+            dataStyle: "layuiStyle",  //使用layui风格的数据格式
+            dataFormat: "list",  //配置data的风格为list
+            response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
+            selectTips: "请选择父级菜单",      //相当于下拉菜单的placeholder占位符
+            menubar: true, //开启菜单栏
+            // checkbar: true,     //复选框
             skin: "layui",
-            selectInputName: {
+            /*selectInputName: {
                 nodeId: "id",
                 context: "title"
-            }
+            }*/
         });
         dtree.on('node("pid_str")', function(obj){
             var param = dtree.selectVal("pid_str");
-            layer.msg(JSON.stringify(param));
+            $("#pid").val(param.pid_str_select_nodeId);        //获取节点的ID赋值给pid
+            $("#pid_str").val(param.title);        //获取节点的名称赋值给下拉菜单
         });
     });
 

@@ -37,4 +37,11 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return
      */
     DataGrid queryAllMenu(SysMenuVo sysMenuVo);
+
+    /**
+     * 添加菜单
+     * @param sysMenuVo
+     * @return
+     */
+    int addMenu(SysMenuVo sysMenuVo);
 }

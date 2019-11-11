@@ -5,10 +5,7 @@ import com.wk.sys.constast.SysConstast;
 import com.wk.sys.pojo.SysMenu;
 import com.wk.sys.pojo.SysUser;
 import com.wk.sys.service.SysMenuService;
-import com.wk.sys.utils.DataGrid;
-import com.wk.sys.utils.TreeNode;
-import com.wk.sys.utils.TreeNodeUtils;
-import com.wk.sys.utils.WebUtils;
+import com.wk.sys.utils.*;
 import com.wk.sys.vo.SysMenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -100,4 +97,16 @@ public class SysMenuController {
         return nodes;
     }
 
+    @RequestMapping("add")
+    public ResultObj add(SysMenuVo sysMenuVo){
+        try {
+            int index = sysMenuService.addMenu(sysMenuVo);
+            if(index>0){
+                return ResultObj.OPERAT_SUCCESS;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultObj.OPERAT_FAIL;
+    }
 }

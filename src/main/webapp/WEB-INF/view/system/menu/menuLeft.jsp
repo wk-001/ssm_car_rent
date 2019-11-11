@@ -28,6 +28,7 @@
 <ul id="menuTree" class="dtree" data-id="0"></ul>
 </body>
 <script type="text/javascript">
+    var menuTree;       //设置全局变量，否则其他页面无法访问
     layui.extend({
         dtree: '<%=basePath%>layuicms2.0/layui_ext/dist/dtree'   // dtree.js所在位置；{/}的意思即代表采用自有路径，即不跟随 base 路径
     }).use(['dtree','layer','jquery'], function(){
@@ -36,7 +37,7 @@
             layer = layui.layer;
 
         // 初始化树
-        var DemoTree = dtree.render({
+        menuTree = dtree.render({
             elem: "#menuTree",  //页面容器
             method:'get',           //访问本地json文件必须用get请求，默认是post请求！！！
 
