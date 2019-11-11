@@ -2,7 +2,6 @@ package com.wk;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wk.sys.dao.SysMenuMapper;
-import com.wk.sys.pojo.SysMenu;
 import com.wk.sys.pojo.SysUser;
 import com.wk.sys.service.SysUserService;
 import org.junit.Before;
@@ -20,8 +19,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration    //获取web的IOC
@@ -64,7 +61,7 @@ public class CodeTest {
         //模拟请求拿到返回值
         MvcResult result = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/menu/initLeftMenu")       //这里路径必须要加"/"
+                        .post("/menu/menuTree")       //这里路径必须要加"/"
                         .session(session)                           //请求添加session
                         .param("id", "1"))
                 .andReturn();

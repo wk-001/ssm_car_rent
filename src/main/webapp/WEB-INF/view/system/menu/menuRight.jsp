@@ -68,54 +68,79 @@
             <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
         </div>
 
-        <!--添加修改弹出层-->
-        <div style="display: none;padding: 20px" id="saveOrUpdate">
-            <form class="layui-form" action="" lay-filter="userForm" id="userForm" method="post">
+        <!-- 添加和修改的弹出层开始 -->
+        <div style="display: none;padding: 20px" id="saveOrUpdateDiv" >
+            <form class="layui-form"  lay-filter="dataForm" id="dataForm">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">父级菜单:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-unselect layui-form-select" id="pid_div">
+                            <div class="layui-select-title">
+                                <input type="hidden" name="pid" id="pid">
+                                <input type="text" name="pid_str" id="pid_str" placeholder="请选择" readonly="" class="layui-input layui-unselect">
+                                <i class="layui-edge"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单名称:</label>
+                    <div class="layui-input-block">
+                        <input type="hidden" name="id">     <%--修改时需要用到ID--%>
+                        <input type="text" name="title"  placeholder="请输入菜单名称" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单地址:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="href" placeholder="请输入菜单地址" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label">用户名</label>
+                        <label class="layui-form-label">菜单图标:</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="username" lay-verify="required" class="layui-input">
+                            <input type="text" name="icon"   placeholder="请输入菜单图标" lay-verify="required" autocomplete="off"
+                                   class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">职业</label>
+                        <label class="layui-form-label">TARGET:</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="classify" class="layui-input">
+                            <input type="text" name="target"  placeholder="请输入TRAGET"  autocomplete="off"
+                                   class="layui-input">
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label">城市</label>
+                        <label class="layui-form-label">是否展开:</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="city" class="layui-input">
+                            <input type="radio" name="spread" value="1" title="展开">
+                            <input type="radio" name="spread" value="0" title="不展开"  checked="checked">
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">签名</label>
+                        <label class="layui-form-label">是否可用:</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="sign" class="layui-input">
+                            <input type="radio" name="available" value="1" checked="checked" title="可用">
+                            <input type="radio" name="available" value="0" title="不可">
                         </div>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">性别</label>
-                        <div class="layui-input-inline">
-                            <input type="radio" name="sex" value="1" title="男" checked>
-                            <input type="radio" name="sex" value="0" title="女">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block" style="padding-left:180px">
-                        <button type="button" class="layui-btn layui-btn-normal layui-icon layui-icon-add-1" lay-submit lay-filter="addUser" id="addUser">添加</button>
-                        <button type="reset" class="layui-btn layui-btn-warm layui-icon layui-icon-refresh">重置</button>
+                <div class="layui-form-item" style="padding-left:170px">
+                    <div class="layui-input-block">
+                        <button type="button" class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-release" lay-filter="doSubmit" lay-submit="">提交</button>
+                        <button type="reset" class="layui-btn layui-btn-warm layui-btn-sm layui-icon layui-icon-refresh" >重置</button>
                     </div>
                 </div>
             </form>
+
         </div>
+        <!-- 添加和修改的弹出层结束 -->
+
     </div>
 </div>
 
@@ -129,17 +154,21 @@
 </style>
 <script type="text/javascript">
     var tableIns;       //定义全局变量 使layui方法块外也可以调用表格
-    layui.use(['jquery','element','form','layer','table'], function(){
+    layui.extend({
+        dtree: '<%=basePath%>layuicms2.0/layui_ext/dist/dtree'   // dtree.js所在位置；{/}的意思即代表采用自有路径，即不跟随 base 路径
+    }).use(['jquery','element','form','layer','table','dtree'], function(){
         var $ = layui.jquery
             ,element = layui.element
             ,form = layui.form
             ,layer = layui.layer
             ,table = layui.table
+            ,dtree = layui.dtree
 
         //渲染数据表格
         tableIns = table.render({
             elem: '#menuTable'      //渲染目标对象 数据表格对应ID
             ,height: 'full-180'            //数据表格高度 可用高度-指定高度
+            ,method: 'post'
             ,url: "<%=basePath%>menu/menuDataList"
             ,page: true //开启分页
             ,toolbar:"#toolBar"     //引用表头工具栏 toolBar是div的ID
@@ -182,8 +211,8 @@
         //监听头部工具栏事件 menuTable:数据表格的ID
         table.on('toolbar(menuTable)', function(obj){
             switch(obj.event){
-                case 'add':             //工具栏按钮lay-event属性的值
-                    openAddUser();
+                case 'add':             //工具栏按钮lay-event="add"属性的值
+                    openAddMenu();
                     break;
                 case 'delete':
                     layer.msg('删除');
@@ -259,7 +288,7 @@
                     //向服务端发送删除指令
                 });
             } else if(layEvent === 'edit'){ //编辑
-                openUpdUser(data);      //修改当前行数据
+                openUpdMenu(data);      //修改当前行数据
                 //同步更新缓存对应的值
                 obj.update({
                     username: '123'
@@ -273,39 +302,47 @@
         var url = "";       //区分添加和修改提交的URL
         var mainModel = "";     //弹窗对象
         //打开添加用户弹出框
-        function openAddUser(){
+        function openAddMenu(){
             mainModel = layer.open({
                 type: 1
-                ,title:'添加用户'
-                ,content:$("#saveOrUpdate")
-                ,area: ['750px','320px']     //弹窗宽高
+                ,title:'添加菜单'
+                ,content:$("#saveOrUpdateDiv")
+                ,maxmin: true       //最大化/最小化
+                ,area: ['750px','410px']     //弹窗宽高
                 ,success:function (index) {
+                    //在弹出层加载成功后的回调方法中去掉最小化按钮；
+                    index.find('.layui-layer-min').remove();
+
                     //打开弹窗清空整个form表单,jquery对象获取的是所有对象的数组，数组中是dom对象，dom对象才有reset();方法
-                    $("#userForm")[0].reset();
-                    url = "/user/add";
+                    $("#dataForm")[0].reset();
+                    url = "/menu/add";
                 }
             });
         }
 
         //打开修改用户弹出框
-        function openUpdUser(data) {
+        function openUpdMenu(data) {
             mainModel = layer.open({
                 type: 1
-                , title: '修改用户信息'
-                , content: $("#saveOrUpdate")
-                , area: ['750px', '320px']     //弹窗宽高
+                , title: '修改菜单信息'
+                ,maxmin: true       //最大化/最小化
+                , content: $("#saveOrUpdateDiv")
+                , area: ['750px', '410px']     //弹窗宽高
                 ,success:function (index) {         //弹窗成功后回调
-                    //给lay-filter="userForm"的表单赋值,name相同可以直接赋值
-                    form.val("userForm",data);
-                    url = "/user/update";
+                    //在弹出层加载成功后的回调方法中去掉最小化按钮；
+                    index.find('.layui-layer-min').remove();
+
+                    //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
+                    form.val("dataForm",data);
+                    url = "/menu/update";
                 }
             });
         }
 
         //保存数据，监听submit
-        form.on('submit(addUser)', function(obj) {
+        form.on('submit(doSubmit)', function(obj) {
             //序列化表单数据
-            var params = $("#userForm").serialize();
+            var params = $("#dataForm").serialize();
             layer.msg(params);
             $.post(url,params,function (obj) {
                 layer.msg(obj);
@@ -316,7 +353,23 @@
             })
         })
 
+        //下拉树
+        dtree.renderSelect({
+            elem: "#pid_str",
+            url: "<%=basePath%>layuicms2.0/layui_ext/json/case/asyncTree11.json",
+            selectTips: "请选择父级菜单",
+            skin: "layui",
+            selectInputName: {
+                nodeId: "id",
+                context: "title"
+            }
+        });
+        dtree.on('node("pid_str")', function(obj){
+            var param = dtree.selectVal("pid_str");
+            layer.msg(JSON.stringify(param));
+        });
     });
+
     function reloadTable(id){
         tableIns.reload({
             url:"<%=basePath%>menu/menuDataList?id="+id
