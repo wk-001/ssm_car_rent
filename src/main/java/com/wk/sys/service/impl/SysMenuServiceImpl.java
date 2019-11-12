@@ -69,7 +69,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public int deleteMenu(Integer id) {
         Map<String,Object> map = new HashMap<>();
-        map.put("mid",id);  //删除role_menu表的menuID
+        map.put("mid",id);  //根据menuID删除role_menu表的数据
         sysRoleMenuMapper.deleteByMap(map);
         return sysMenuMapper.deleteById(id);
     }
