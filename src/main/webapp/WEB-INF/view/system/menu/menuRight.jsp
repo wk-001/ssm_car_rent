@@ -282,18 +282,35 @@
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
             if(layEvent === 'del'){ //删除
-                layer.confirm('真的删除行么', function(index){
-                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                    layer.close(index);
-                    //向服务端发送删除指令
-                });
+                //查询当前数据是否有子节点，如果有不能直接删除，需要先删除子节点
+                $.post("<%=basePath%>menu/checkChildCount",{"id":data.id},function (result) {
+                    if(result>0){
+                        layer.msg("当前菜单存在子节点，请先删除子节点");
+                    }else {
+                        layer.confirm('确定删除菜单['+data.title+']吗？', function(index){
+                            obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                            layer.close(index);
+                            //向服务端发送删除指令
+                            $.post("<%=basePath%>menu/delete",{"id":data.id},function (result) {
+                                layer.msg(result.msg);
+                                //刷新左侧菜单树
+                                window.parent.left.menuTree.reload();
+                                //刷新添加弹窗的下拉树
+                                parentTree.reload();
+                                // 刷新数据表格
+                                tableIns.reload();      //在不刷新页面的情况刷新表格数据
+                            })
+                        });
+                    }
+                })
+
             } else if(layEvent === 'edit'){ //编辑
                 openUpdMenu(data);      //修改当前行数据
                 //同步更新缓存对应的值
-                obj.update({
+                /*obj.update({
                     username: '123'
                     ,title: 'xxx'
-                });
+                });*/
             } else if(layEvent === 'LAYTABLE_TIPS'){
                 layer.alert('Hi，头部工具栏扩展的右侧图标。');
             }
@@ -312,6 +329,7 @@
                 ,success:function (index) {
                     //在弹出层加载成功后的回调方法中去掉最小化按钮；
                     index.find('.layui-layer-min').remove();
+                    //layui-card是重新渲染后的class，通过浏览器F12看到的
                     $(".layui-card").removeClass("dtree-select-show");  //打开弹窗关闭下拉树
                     //打开弹窗清空整个form表单,jquery对象获取的是所有对象的数组，数组中是dom对象，dom对象才有reset();方法
                     $("#dataForm")[0].reset();
@@ -329,8 +347,20 @@
                 , content: $("#saveOrUpdateDiv")
                 , area: ['750px', '410px']     //弹窗宽高
                 ,success:function (index) {         //弹窗成功后回调
+                    var pid = data.pid;     //获取选中数据的pid
+                    //回显选中数据的父节点
+                    var param = dtree.dataInit("pid_str", pid);
+                    if(pid!=0){
+                        //pid_str_select_input_id是重新渲染后的ID，通过浏览器F12看到的
+                        $("#pid_str_select_input_id").val(param.context);
+                    }else {
+                        //pid_str_select_input_id是重新渲染后的ID，通过浏览器F12看到的
+                        $("#pid_str_select_input_id").val(data.title);
+                    }
+
                     //在弹出层加载成功后的回调方法中去掉最小化按钮；
                     index.find('.layui-layer-min').remove();
+                    //layui-card是重新渲染后的class，通过浏览器F12看到的
                     $(".layui-card").removeClass("dtree-select-show");  //打开弹窗关闭下拉树
                     //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
                     form.val("dataForm",data);
@@ -343,7 +373,6 @@
         form.on('submit(doSubmit)', function(obj) {
             //序列化表单数据
             var params = $("#dataForm").serialize();
-            layer.msg(params);
             $.post(url,params,function (obj) {
                 layer.msg(obj.msg);
                 //关闭弹窗
@@ -374,8 +403,10 @@
                 context: "title"
             }*/
         });
+        //点击下拉树，给隐藏域赋值ID，显示选中节点
         dtree.on('node("pid_str")', function(obj){
             var param = dtree.selectVal("pid_str");
+            //pid_str_select_nodeId是重新渲染后的ID，通过浏览器F12看到的
             $("#pid").val(param.pid_str_select_nodeId);        //获取节点的ID赋值给pid
             $("#pid_str").val(param.title);        //获取节点的名称赋值给下拉菜单
         });

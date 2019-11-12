@@ -44,4 +44,25 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return
      */
     int addMenu(SysMenuVo sysMenuVo);
+
+    /**
+     * 更新菜单信息
+     * @param sysMenuVo
+     * @return
+     */
+	int updateMenu(SysMenuVo sysMenuVo);
+
+    /**
+     * 查询是否有子节点
+     * @param id
+     * @return
+     */
+    int checkChildCount(Integer id);
+
+    /**
+     * 删除菜单
+     * @param id
+     * @return
+     */
+    int deleteMenu(Integer id);
 }

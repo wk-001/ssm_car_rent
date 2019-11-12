@@ -42,7 +42,7 @@
             method:'get',           //访问本地json文件必须用get请求，默认是post请求！！！
 
             /*layui+list集合数据格式（dataStyle + dataFormat）*/
-            url: "<%=basePath%>menu/menuTree",
+            url: "<%=basePath%>menu/menuTree?spread=1",
             dataStyle: "layuiStyle",  //使用layui风格的数据格式
             dataFormat: "list",  //配置data的风格为list
             response:{message:"msg",statusCode:0},  //修改response中返回数据的定义

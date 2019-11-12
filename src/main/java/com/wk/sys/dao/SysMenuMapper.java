@@ -16,4 +16,6 @@ import java.util.List;
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     List<SysMenu> queryMenuList(SysMenu sysMenu);
+
+	int queryMenuByPid(Integer id);
 }

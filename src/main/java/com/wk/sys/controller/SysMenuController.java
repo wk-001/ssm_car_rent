@@ -97,6 +97,11 @@ public class SysMenuController {
         return nodes;
     }
 
+    /**
+     * 添加菜单
+     * @param sysMenuVo
+     * @return
+     */
     @RequestMapping("add")
     public ResultObj add(SysMenuVo sysMenuVo){
         try {
@@ -108,5 +113,48 @@ public class SysMenuController {
             e.printStackTrace();
         }
         return ResultObj.OPERAT_FAIL;
+    }
+
+    /**
+     * 修改菜单
+     * @param sysMenuVo
+     * @return
+     */
+    @RequestMapping("update")
+    public ResultObj update(SysMenuVo sysMenuVo){
+        try {
+            int index = sysMenuService.updateMenu(sysMenuVo);
+            if(index>0){
+                return ResultObj.OPERAT_SUCCESS;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultObj.OPERAT_FAIL;
+    }
+
+    /**
+     * 查询是否有子节点
+     * @param id
+     * @return
+     */
+    @RequestMapping("checkChildCount")
+    public int checkChildCount(Integer id){
+        return sysMenuService.checkChildCount(id);
+    }
+
+    /**
+     * 删除菜单
+     * @param id
+     * @return
+     */
+    @RequestMapping("delete")
+    public ResultObj delete(Integer id){
+        int i = sysMenuService.deleteMenu(id);
+        if(i>0){
+            return ResultObj.OPERAT_SUCCESS;
+        }else{
+            return ResultObj.OPERAT_FAIL;
+        }
     }
 }
