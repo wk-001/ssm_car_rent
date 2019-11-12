@@ -44,17 +44,6 @@ public class SysMenuController {
 
         //把list中的数据放入到nodes中
         List<TreeNode> nodes = getTreeNodeList(list);
-        /*List<TreeNode> nodes = new ArrayList<>();
-        for (SysMenu menu : list) {
-            Integer id = menu.getId();
-            Integer pid = menu.getPid();
-            String title = menu.getTitle();
-            String icon = menu.getIcon();
-            String href = menu.getHref();
-            Boolean spread = menu.getSpread()==SysConstast.SPREAD_TRUE?true:false;
-            String target = menu.getTarget();
-            nodes.add(new TreeNode(id,pid,title,icon,href,spread,target));
-        }*/
 
         Integer topPid = 1;     //设置父节点
         return TreeNodeUtils.builder(nodes,topPid);
@@ -150,11 +139,14 @@ public class SysMenuController {
      */
     @RequestMapping("delete")
     public ResultObj delete(Integer id){
-        int i = sysMenuService.deleteMenu(id);
-        if(i>0){
-            return ResultObj.OPERAT_SUCCESS;
-        }else{
-            return ResultObj.OPERAT_FAIL;
+        try {
+            int i = sysMenuService.deleteMenu(id);
+            if(i>0){
+                return ResultObj.OPERAT_SUCCESS;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return ResultObj.OPERAT_FAIL;
     }
 }

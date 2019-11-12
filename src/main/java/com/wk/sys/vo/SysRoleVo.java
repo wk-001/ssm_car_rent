@@ -16,6 +16,6 @@ public class SysRoleVo extends SysRole {
 
 	private Integer limit;          //每页多少条
 
-	private List<Integer> ids;			//接收多个角色ID，用于批量删除
+	private Integer[] ids;			//接收多个角色ID，用于批量删除
 
 }

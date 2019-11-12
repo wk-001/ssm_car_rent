@@ -23,12 +23,12 @@
                 <bind name="rolename" value=" '%' + rolename + '%' "/>
                 and rolename like #{rolename}
             </if>
-            <if test="roledesc!=null and roledesc!=''">
+            <if test="roledesc !=null and roledesc !=''">
                 <bind name="roledesc" value=" '%' + roledesc + '%' "/>
                 and roledesc like #{roledesc}
             </if>
-            <if test="available !=null and available !=''">
-                and available = #{available}
+            <if test="available !=null">
+                and available = #{available,jdbcType=INTEGER}
             </if>
         </where>
     </select>

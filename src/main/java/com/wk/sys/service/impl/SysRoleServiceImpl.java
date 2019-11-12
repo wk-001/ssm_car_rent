@@ -69,7 +69,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	}
 
 	@Override
-	public int batchDelete(List<Integer> ids) {
-		return sysRoleMapper.deleteBatchIds(ids);
+	public int batchDeleteRole(Integer[] ids) {
+		int i = 0;
+		for (Integer id : ids) {
+			i+=deleteRole(id);
+		}
+		return i;
 	}
 }

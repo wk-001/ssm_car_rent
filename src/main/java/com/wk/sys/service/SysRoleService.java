@@ -44,15 +44,15 @@ public interface SysRoleService extends IService<SysRole> {
 	int updateRole(SysRoleVo sysRoleVo);
 
 	/**
-	 * 根据ID删除角色
+	 * 根据ID删除角色表、角色用户表、角色权限表
 	 * @param id
 	 */
 	int deleteRole(Integer id);
 
 	/**
-	 * 批量删除角色
+	 * 批量删除角色表、角色用户表、角色权限表
 	 * @param ids
 	 * @return
 	 */
-	int batchDelete(List<Integer> ids);
+	int batchDeleteRole(Integer[] ids);
 }

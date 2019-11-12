@@ -42,4 +42,11 @@ public class SysController {
         return "system/menu/menuRight";
     }
 
+    /**
+     * 跳转到角色管理页面
+     */
+    @RequestMapping("toRoleMain")
+    public String toRoleMain(){
+        return "system/role/roleMain";
+    }
 }
