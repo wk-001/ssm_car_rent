@@ -76,7 +76,7 @@
                     <div class="layui-input-block">
                         <div class="layui-unselect layui-form-select" id="pid_div">
                             <div class="layui-select-title">
-                                <input type="text" name="pid" id="pid">
+                                <input type="hidden" name="pid" id="pid">
                                 <%--<input type="text" name="pid_str" id="pid_str" placeholder="请选择" readonly="" class="layui-input layui-unselect">--%>
                                 <ul id="pid_str" class="dtree" data-id="0" ></ul>
                             </div>
@@ -350,7 +350,6 @@
                 layer.close(mainModel);
                 //刷新左侧菜单树
                 window.parent.left.menuTree.reload();
-                window.parent.left.menuTree.reload();
                 //刷新添加弹窗的下拉树
                 parentTree.reload();
                 // 刷新数据表格
@@ -361,6 +360,7 @@
         //下拉树
         var parentTree = dtree.renderSelect({
             elem: "#pid_str",
+            //spread传到后台的数据是true/false 对象接收1/0 直接接收会报错，所以强制传递1
             url: "<%=basePath%>menu/menuTree?spread=1",
             dataStyle: "layuiStyle",  //使用layui风格的数据格式
             dataFormat: "list",  //配置data的风格为list
@@ -386,6 +386,7 @@
             url:"<%=basePath%>menu/menuDataList?id="+id
         });
     }
+
 </script>
 
 </html>
