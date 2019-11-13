@@ -2,6 +2,7 @@ package com.wk.sys.service;
 
 import com.wk.sys.pojo.SysRoleMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wk.sys.vo.SysRoleVo;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
+	void editRoleMenu(SysRoleVo sysRoleVo);
 }

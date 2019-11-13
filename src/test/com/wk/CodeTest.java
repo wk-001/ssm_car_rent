@@ -3,7 +3,9 @@ package com.wk;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wk.sys.dao.SysMenuMapper;
 import com.wk.sys.pojo.SysUser;
+import com.wk.sys.service.SysRoleMenuService;
 import com.wk.sys.service.SysUserService;
+import com.wk.sys.vo.SysRoleVo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
@@ -34,6 +37,9 @@ public class CodeTest {
 
     @Resource
     private SysUserService userService;
+
+    @Autowired
+    private SysRoleMenuService sysRoleMenuService;
 
     @Resource
     private SysMenuMapper menuMapper;
@@ -81,4 +87,14 @@ public class CodeTest {
         System.out.println("str = " + str);
     }
 
+    //测试mybatis批量插入对象中有数组或list的情况
+    @Test
+    @Transactional      //自动回滚，不会污染数据库数据
+    public void testBatchInsert(){
+        SysRoleVo sysRoleVo = new SysRoleVo();
+        sysRoleVo.setRoleid(7);
+        Integer[] ids = {1,2,3,4,5};
+        sysRoleVo.setIds(ids);
+        sysRoleMenuService.editRoleMenu(sysRoleVo);
+    }
 }

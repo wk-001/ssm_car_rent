@@ -9,7 +9,6 @@ import com.wk.sys.utils.*;
 import com.wk.sys.vo.SysMenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -148,5 +147,14 @@ public class SysMenuController {
             e.printStackTrace();
         }
         return ResultObj.OPERAT_FAIL;
+    }
+
+    /**
+     * 角色分配菜单需要带有复选框的菜单树
+     * @return
+     */
+    @RequestMapping("roleMenuTree")
+    public DataGrid roleMenuTree(Integer roleid){
+        return sysMenuService.roleMenuTree(roleid);
     }
 }

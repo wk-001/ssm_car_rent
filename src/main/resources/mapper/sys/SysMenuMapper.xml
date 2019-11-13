@@ -38,5 +38,15 @@
     <select id="queryMenuByPid" resultType="java.lang.Integer">
         select count(1) from sys_menu where pid = #{id}
     </select>
+    <select id="queryMenuByRoleid" resultType="com.wk.sys.pojo.SysMenu">
+        SELECT
+            m.*
+        FROM
+            sys_menu m
+            RIGHT JOIN sys_role_menu rm ON rm.mid = m.id
+        WHERE
+            rm.rid = #{roleid}
+            AND m.available = #{available}
+    </select>
 
 </mapper>

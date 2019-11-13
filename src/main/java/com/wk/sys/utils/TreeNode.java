@@ -1,7 +1,6 @@
 package com.wk.sys.utils;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -29,6 +28,17 @@ public class TreeNode {
     private String target;          //是否在新标签打开页面
 
     private List<TreeNode> children = new ArrayList<>();    //子节点
+
+    private String checkArr = "0";   //0：不选中；1：选中
+
+    //带有复选框的树
+    public TreeNode(Integer id, Integer pid, String title, Boolean spread, String checkArr) {
+        this.id = id;
+        this.pid = pid;
+        this.title = title;
+        this.spread = spread;
+        this.checkArr = checkArr;
+    }
 
     public TreeNode(Integer id, Integer pid, String title, String icon, String href, Boolean spread, String target) {
         this.id = id;

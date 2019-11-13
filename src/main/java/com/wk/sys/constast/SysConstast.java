@@ -51,6 +51,9 @@ public interface SysConstast {
 	String OPERAT_SUCCESS="操作成功";
 	String OPERAT_FAIL ="操作失败";
 
-	
+	//数字常量
+	Integer SYS_ZERO = 0;
+	Integer SYS_ONE = 1;
+	Integer SYS_TWO = 2;
 
 }

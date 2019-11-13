@@ -12,5 +12,11 @@
     <sql id="Base_Column_List">
         rid, mid
     </sql>
+    <insert id="batchInsert">
+        insert into sys_role_menu(rid,mid) values
+        <foreach collection="ids" item="mid" index="index" separator="," >
+            (#{roleid,jdbcType=INTEGER},#{mid,jdbcType=INTEGER})
+        </foreach>
+    </insert>
 
 </mapper>

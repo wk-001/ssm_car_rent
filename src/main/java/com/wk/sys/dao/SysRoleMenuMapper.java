@@ -2,6 +2,7 @@ package com.wk.sys.dao;
 
 import com.wk.sys.pojo.SysRoleMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wk.sys.vo.SysRoleVo;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
+	void batchInsert(SysRoleVo sysRoleVo);
 }

@@ -3,15 +3,18 @@ package com.wk.sys.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.wk.sys.constast.SysConstast;
 import com.wk.sys.dao.SysMenuMapper;
 import com.wk.sys.dao.SysRoleMenuMapper;
 import com.wk.sys.pojo.SysMenu;
 import com.wk.sys.service.SysMenuService;
 import com.wk.sys.utils.DataGrid;
+import com.wk.sys.utils.TreeNode;
 import com.wk.sys.vo.SysMenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +38,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> queryMenuList(SysMenuVo sysMenuVo) {
-
         return sysMenuMapper.queryMenuList(sysMenuVo);
     }
 
@@ -73,4 +75,36 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         sysRoleMenuMapper.deleteByMap(map);
         return sysMenuMapper.deleteById(id);
     }
+
+	@Override
+	public DataGrid roleMenuTree(Integer roleid) {
+        //查询所有可用的菜单
+        SysMenu sysMenuVo = new SysMenu();
+        sysMenuVo.setAvailable(SysConstast.AVAILABLE_TRUE);
+        List<SysMenu> menuList = sysMenuMapper.queryMenuList(sysMenuVo);
+        //根据角色ID查询菜单
+        List<SysMenu> roleMenu = sysMenuMapper.queryMenuByRoleid(SysConstast.AVAILABLE_TRUE,roleid);
+
+        List<TreeNode> data = new ArrayList<>();
+
+        //判断节点是否选中
+        for (SysMenu sysMenu : menuList) {
+            String checkArr = SysConstast.SYS_ZERO+"";
+            for (SysMenu menu : roleMenu) {
+                if(menu.getId()==sysMenu.getId()){
+                    checkArr = SysConstast.SYS_ONE+"";
+                    break;
+                }
+            }
+            data.add(new TreeNode(sysMenu.getId()
+                    ,sysMenu.getPid()
+                    ,sysMenu.getTitle()
+                    ,sysMenu.getSpread()==1?true:false
+                    ,checkArr));
+        }
+
+
+		return new DataGrid(data);
+	}
+
 }

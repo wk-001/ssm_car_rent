@@ -108,7 +108,7 @@
                         <label class="layui-form-label">是否可用:</label>
                         <div class="layui-input-inline">
                             <input type="radio" name="available" value="1" checked="checked" title="可用">
-                            <input type="radio" name="available" value="0" title="不可">
+                            <input type="radio" name="available" value="0" title="不可用">
                         </div>
                     </div>
                 </div>
@@ -122,6 +122,12 @@
 
         </div>
         <!-- 添加和修改的弹出层结束 -->
+
+        <%--角色分配菜单开始--%>
+        <div style="display: none" id="selectMenuTree">
+            <ul id="menuTree" class="dtree" data-id="0"></ul>
+        </div>
+        <%--角色分配菜单结束--%>
 
     </div>
 </div>
@@ -271,13 +277,8 @@
                 });
             } else if(layEvent === 'edit'){ //编辑
                 openUpdRole(data);      //修改当前行数据
-                //同步更新缓存对应的值
-                /*obj.update({
-                    username: '123'
-                    ,title: 'xxx'
-                });*/
-            } else if(layEvent === 'LAYTABLE_TIPS'){
-                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            } else if(layEvent === 'assignMenu'){   //角色分配权限
+                openMenuTree(data);
             }
         });
 
@@ -337,6 +338,47 @@
                     // 刷新数据表格
                     tableIns.reload();      //在不刷新页面的情况刷新表格数据
                 })
+            });
+        }
+
+        //角色分配权限菜单
+        function openMenuTree(data){
+            var menuTree;
+            mainModel = layer.open({
+                type: 1
+                ,title:'为角色['+data.rolename+']分配权限'
+                ,content:$("#selectMenuTree")
+                ,maxmin: true       //最大化/最小化
+                ,area: ['400px','500px']     //弹窗宽高
+                ,btnAlign: 'c'
+                ,btn: ['<div class="layui-icon layui-icon-ok">保存</div>', '<div class="layui-icon layui-icon-close">关闭</div>']
+                ,yes: function(index, layero){
+                    //获取复选框选中值
+                    var nodes = dtree.getCheckbarNodesParam("menuTree");
+                    var roleid = data.roleid;
+                    var params = "roleid="+roleid;
+                    $.each(nodes,function (i, item) {
+                        params+="&ids="+item.nodeId;
+                    })
+                    $.post("<%=basePath%>roleMenu/editRoleMenu",params,function (obj) {
+                        layer.msg(obj.msg);
+                    })
+                }
+                ,success:function (index) {
+                    //在弹出层加载成功后的回调方法中去掉最小化按钮；
+                    index.find('.layui-layer-min').remove();
+                    //初始化树
+                    menuTree = dtree.render({
+                        elem: "#menuTree",  //页面容器
+                        url: "<%=basePath%>menu/roleMenuTree?roleid="+data.roleid,
+                        dataStyle: "layuiStyle",  //使用layui风格的数据格式
+                        dataFormat: "list",  //配置data的风格为list
+                        response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
+                        checkbar: true,
+                        checkbarType: "no-all",// 默认就是all上下级联，其他的值为： no-all半选  p-casc   self  only
+                        skin: "layui"
+                    });
+                }
             });
         }
 

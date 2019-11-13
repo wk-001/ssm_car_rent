@@ -204,7 +204,7 @@
                 ,{field:'available', title:'是否可用',align:'center',templet:function(d){
                         return d.available=='1'?'<span style="color: blue;">可用</span>':'<span style="color: red;">不可用</span>';
                     }}
-                ,{fixed: 'right', title:'操作', toolbar: '#menuBar',align:'center'}
+                ,{fixed: 'right', title:'操作', toolbar: '#menuBar', width:150,align:'center'}
             ]]
         });
 

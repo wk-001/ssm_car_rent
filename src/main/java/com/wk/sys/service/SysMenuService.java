@@ -65,4 +65,11 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return
      */
     int deleteMenu(Integer id);
+
+    /**
+     * 角色分配菜单需要带有复选框的菜单树
+     * @param roleid
+     * @return
+     */
+	DataGrid roleMenuTree(Integer roleid);
 }
