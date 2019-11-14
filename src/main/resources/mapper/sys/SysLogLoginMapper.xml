@@ -14,5 +14,30 @@
     <sql id="Base_Column_List">
         id, loginname, loginip, logintime
     </sql>
+    <select id="queryAllLogInfo" resultType="com.wk.sys.pojo.SysLogLogin">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_log_login
+        <where>
+            <if test="loginname!=null and loginname!=''">
+                <bind name="loginname" value=" '%' + loginname + '%' "/>
+                and loginname like #{loginname}
+            </if>
+            <if test="loginip!=null and loginip!=''">
+                <bind name="loginip" value=" '%' + loginip + '%' "/>
+                and loginip like #{loginip}
+            </if>
+
+            <if test="startTime!=null">
+                and logintime >=#{startTime}
+            </if>
+            <if test="endTime!=null">
+                <!-- and logintime &lt; = #{endTime} -->
+                and logintime  <![CDATA[<=]]> #{endTime}
+            </if>
+
+        </where>
+        order by logintime desc
+    </select>
 
 </mapper>

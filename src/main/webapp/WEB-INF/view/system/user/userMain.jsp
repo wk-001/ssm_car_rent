@@ -217,35 +217,26 @@
             ,page: true //开启分页
             ,toolbar:"#toolBar"     //引用表头工具栏 toolBar是div的ID
             ,defaultToolbar: ['filter', 'print', 'exports']     //修改默认工具栏的功能和顺序
-            //,limits: [10, 20, 30]   //可显示的数据条数
-            //,limit: 10              //每页默认显示的数量
             ,even: true             //开启隔行背景
             //,totalRow:true	    //开启合并行
             ,text: {
                 none: '暂无相关数据' //无数据时显示的内容 默认：无数据。
             }
-            /*,done: function(res, curr, count){      //数据渲染完的回调
-                //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                console.log(res);
-                console.log(curr);      //得到当前页码
-                console.log(count);     //得到数据总量
-            }*/
             ,cols: [[ //表头
                 {type:'checkbox', fixed: 'left'}    //fixed冻结列的位置
                 ,{field:'userid', title:'ID',align:'center'}
-                ,{field:'realname', title:'用户姓名',align:'center',width:'100'}
-                ,{field:'loginname', title:'登陆名',align:'center',width:'100'}
-                ,{field:'identity', title:'身份证号',align:'center',width:'200'}
-                ,{field:'phone', title:'用户电话',align:'center',width:'150'}
-                ,{field:'address', title:'用户地址',align:'center',width:'100'}
-                ,{field:'sex', title:'性别',align:'center',width:'80',templet:function(d){
+                ,{field:'realname', title:'用户姓名',align:'center'}
+                ,{field:'loginname', title:'登陆名',align:'center'}
+                ,{field:'identity', title:'身份证号',align:'center'}
+                ,{field:'phone', title:'用户电话',align:'center'}
+                ,{field:'address', title:'用户地址',align:'center'}
+                ,{field:'sex', title:'性别',align:'center',templet:function(d){
                         return d.sex=='1'?'<span style="color: blue;">男</span>':'<span style="color: red;">女</span>';
                     }}
-                ,{field:'available', title:'是否可用',width:'100',align:'center',templet:function(d){
+                ,{field:'available', title:'是否可用',align:'center',templet:function(d){
                         return d.available=='1'?'<span style="color: blue;">可用</span>':'<span style="color: red;">不可用</span>';
                     }}
-                ,{fixed: 'right', title:'操作', toolbar: '#userBar',align:'center',width:'320'}
+                ,{fixed: 'right',width:320, title:'操作', toolbar: '#userBar',align:'center'}
             ]]
         });
 

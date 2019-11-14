@@ -57,4 +57,12 @@ public class SysController {
     public String toUserMain(){
         return "system/user/userMain";
     }
+
+    /**
+     * 跳转到日志管理页面
+     */
+    @RequestMapping("toLogInfoMain")
+    public String toLogInfoMain(){
+        return "system/logInfo/logInfoMain";
+    }
 }
