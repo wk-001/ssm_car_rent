@@ -2,6 +2,7 @@ package com.wk.sys.dao;
 
 import com.wk.sys.pojo.SysRoleUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wk.sys.vo.SysUserVo;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SysRoleUserMapper extends BaseMapper<SysRoleUser> {
 
+	int batchInsert(SysUserVo sysUserVo);
 }

@@ -48,5 +48,18 @@
             rm.rid = #{roleid}
             AND m.available = #{available}
     </select>
+    <select id="queryMenuByUid" resultType="com.wk.sys.pojo.SysMenu">
+        SELECT
+            sm.*
+        FROM
+            sys_menu sm,
+            sys_role_menu srm,
+            sys_role_user sru
+        WHERE
+            srm.mid = sm.id
+            AND sru.rid = srm.rid
+            AND sru.uid = #{userId}
+            AND sm.available = #{available}
+    </select>
 
 </mapper>

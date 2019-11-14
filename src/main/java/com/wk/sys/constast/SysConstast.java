@@ -56,4 +56,5 @@ public interface SysConstast {
 	Integer SYS_ONE = 1;
 	Integer SYS_TWO = 2;
 
+	String USER_DEFAULT_PWD = "123456";
 }

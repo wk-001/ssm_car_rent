@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : 3306
  Source Server Type    : MySQL
- Source Server Version : 50727
+ Source Server Version : 50723
  Source Host           : localhost:3306
  Source Schema         : car_rent
 
  Target Server Type    : MySQL
- Target Server Version : 50727
+ Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 10/11/2019 22:07:49
+ Date: 14/11/2019 17:47:50
 */
 
 SET NAMES utf8mb4;
@@ -290,8 +290,8 @@ INSERT INTO `sys_menu` VALUES (9, 3, '出租单管理', NULL, 0, NULL, '&#xe63c;
 INSERT INTO `sys_menu` VALUES (10, 3, '汽车入库', NULL, 0, NULL, '&#xe68e;', 1);
 INSERT INTO `sys_menu` VALUES (11, 3, '检查单管理', NULL, 0, NULL, '&#xe63c;', 1);
 INSERT INTO `sys_menu` VALUES (12, 4, '菜单管理', '../sys/toMenuMain', 0, NULL, '&#xe63c;', 1);
-INSERT INTO `sys_menu` VALUES (13, 4, '角色管理', NULL, 0, NULL, '&#xe66f;', 1);
-INSERT INTO `sys_menu` VALUES (14, 4, '用户管理', NULL, 0, NULL, '&#xe770;', 1);
+INSERT INTO `sys_menu` VALUES (13, 4, '角色管理', '../sys/toRoleMain', 0, '', '&#xe66f;', 1);
+INSERT INTO `sys_menu` VALUES (14, 4, '用户管理', '../sys/toUserMain', 0, NULL, '&#xe770;', 1);
 INSERT INTO `sys_menu` VALUES (15, 4, '日志管理', NULL, 0, NULL, '&#xe655;', 1);
 INSERT INTO `sys_menu` VALUES (16, 4, '公告管理', NULL, 0, NULL, '&#xe645;', 1);
 INSERT INTO `sys_menu` VALUES (17, 4, '数据源监控', NULL, 0, NULL, '&#xe857;', 1);
@@ -350,6 +350,46 @@ CREATE TABLE `sys_role_menu`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of sys_role_menu
+-- ----------------------------
+INSERT INTO `sys_role_menu` VALUES (1, 1);
+INSERT INTO `sys_role_menu` VALUES (1, 2);
+INSERT INTO `sys_role_menu` VALUES (1, 3);
+INSERT INTO `sys_role_menu` VALUES (1, 4);
+INSERT INTO `sys_role_menu` VALUES (1, 5);
+INSERT INTO `sys_role_menu` VALUES (1, 6);
+INSERT INTO `sys_role_menu` VALUES (1, 7);
+INSERT INTO `sys_role_menu` VALUES (1, 8);
+INSERT INTO `sys_role_menu` VALUES (1, 9);
+INSERT INTO `sys_role_menu` VALUES (1, 10);
+INSERT INTO `sys_role_menu` VALUES (1, 11);
+INSERT INTO `sys_role_menu` VALUES (1, 12);
+INSERT INTO `sys_role_menu` VALUES (1, 13);
+INSERT INTO `sys_role_menu` VALUES (1, 14);
+INSERT INTO `sys_role_menu` VALUES (1, 15);
+INSERT INTO `sys_role_menu` VALUES (1, 16);
+INSERT INTO `sys_role_menu` VALUES (1, 17);
+INSERT INTO `sys_role_menu` VALUES (1, 18);
+INSERT INTO `sys_role_menu` VALUES (1, 19);
+INSERT INTO `sys_role_menu` VALUES (1, 20);
+INSERT INTO `sys_role_menu` VALUES (2, 3);
+INSERT INTO `sys_role_menu` VALUES (2, 8);
+INSERT INTO `sys_role_menu` VALUES (2, 9);
+INSERT INTO `sys_role_menu` VALUES (2, 10);
+INSERT INTO `sys_role_menu` VALUES (2, 11);
+INSERT INTO `sys_role_menu` VALUES (3, 4);
+INSERT INTO `sys_role_menu` VALUES (3, 12);
+INSERT INTO `sys_role_menu` VALUES (3, 13);
+INSERT INTO `sys_role_menu` VALUES (3, 14);
+INSERT INTO `sys_role_menu` VALUES (3, 15);
+INSERT INTO `sys_role_menu` VALUES (3, 16);
+INSERT INTO `sys_role_menu` VALUES (3, 17);
+INSERT INTO `sys_role_menu` VALUES (4, 5);
+INSERT INTO `sys_role_menu` VALUES (4, 18);
+INSERT INTO `sys_role_menu` VALUES (4, 19);
+INSERT INTO `sys_role_menu` VALUES (4, 20);
+
+-- ----------------------------
 -- Table structure for sys_role_user
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_user`;
@@ -358,6 +398,14 @@ CREATE TABLE `sys_role_user`  (
   `rid` int(11) NOT NULL,
   PRIMARY KEY (`uid`, `rid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_role_user
+-- ----------------------------
+INSERT INTO `sys_role_user` VALUES (3, 1);
+INSERT INTO `sys_role_user` VALUES (4, 3);
+INSERT INTO `sys_role_user` VALUES (5, 2);
+INSERT INTO `sys_role_user` VALUES (6, 4);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -376,7 +424,7 @@ CREATE TABLE `sys_user`  (
   `type` int(255) DEFAULT 2 COMMENT '1，超级管理员,2，系统用户',
   `available` int(255) DEFAULT NULL,
   PRIMARY KEY (`userid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user

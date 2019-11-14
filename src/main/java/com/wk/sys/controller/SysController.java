@@ -49,4 +49,12 @@ public class SysController {
     public String toRoleMain(){
         return "system/role/roleMain";
     }
+
+    /**
+     * 跳转到用户管理页面
+     */
+    @RequestMapping("toUserMain")
+    public String toUserMain(){
+        return "system/user/userMain";
+    }
 }

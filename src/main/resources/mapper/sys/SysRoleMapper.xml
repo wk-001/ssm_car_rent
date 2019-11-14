@@ -32,5 +32,16 @@
             </if>
         </where>
     </select>
+    <select id="selectByUid" resultType="com.wk.sys.pojo.SysRole">
+        SELECT
+            sr.roleid
+        FROM
+            sys_role sr,
+            sys_role_user sru
+        WHERE
+            sr.roleid = sru.rid
+            AND sru.uid = #{userid}
+            AND sr.available = 1
+    </select>
 
 </mapper>

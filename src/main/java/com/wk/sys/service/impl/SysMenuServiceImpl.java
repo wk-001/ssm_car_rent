@@ -43,7 +43,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> queryMenuListByUserId(SysMenuVo sysMenuVo, Integer userId) {
-        return sysMenuMapper.queryMenuList(sysMenuVo);
+        return sysMenuMapper.queryMenuByUid(sysMenuVo.getAvailable(),userId);
     }
 
     @Override

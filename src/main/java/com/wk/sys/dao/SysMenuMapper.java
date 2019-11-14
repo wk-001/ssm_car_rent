@@ -21,4 +21,6 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
 	int queryMenuByPid(Integer id);
 
 	List<SysMenu> queryMenuByRoleid(@Param("available") Integer available, @Param("roleid") Integer roleid);
+
+	List<SysMenu> queryMenuByUid(@Param("available")Integer available, @Param("userId")Integer userId);
 }

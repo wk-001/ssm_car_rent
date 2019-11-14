@@ -16,4 +16,6 @@ import java.util.List;
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
 	List<SysRole> queryAllRole(SysRole sysRole);
+
+	List<SysRole> selectByUid(Integer userid);
 }

@@ -3,6 +3,8 @@ package com.wk.sys.dao;
 import com.wk.sys.pojo.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
+	List<SysUser> queryAllUser(SysUser sysUser);
 }

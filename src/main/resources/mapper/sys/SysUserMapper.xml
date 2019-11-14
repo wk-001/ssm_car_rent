@@ -21,5 +21,36 @@
     <sql id="Base_Column_List">
         userid, loginname, identity, realname, sex, address, phone, pwd, position, type, available
     </sql>
+    <select id="queryAllUser" resultType="com.wk.sys.pojo.SysUser">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            <if test="loginname !=null and loginname !=''">
+                <bind name="loginname" value=" '%' + loginname + '%' "/>
+                and loginname like #{loginname}
+            </if>
+            <if test="identity !=null and identity !=''">
+                <bind name="identity" value=" '%' + identity + '%' "/>
+                and identity like #{identity}
+            </if>
+            <if test="realname !=null and realname !=''">
+                <bind name="realname" value=" '%' + realname + '%' "/>
+                and realname like #{realname}
+            </if>
+            <if test="phone !=null and phone !=''">
+                <bind name="phone" value=" '%' + phone + '%' "/>
+                and phone like #{phone}
+            </if>
+            <if test="address !=null and address !=''">
+                <bind name="address" value=" '%' + address + '%' "/>
+                and address like #{address}
+            </if>
+            <if test="sex !=null">
+                and sex = #{sex,jdbcType=INTEGER}
+            </if>
+            and type != 1
+        </where>
+    </select>
 
 </mapper>
