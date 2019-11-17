@@ -15,5 +15,28 @@
     <sql id="Base_Column_List">
         id, title, content, createtime, opername
     </sql>
+    <select id="queryAllNews" resultType="com.wk.sys.pojo.SysNews">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_news
+        <where>
+            <if test="title!=null and title!=''">
+                <bind name="title" value=" '%' + title + '%' "/>
+                and title like #{title}
+            </if>
+            <if test="content!=null and content!=''">
+                <bind name="content" value=" '%' + content + '%' "/>
+                and content like #{content}
+            </if>
+
+            <if test="startTime!=null">
+                and createtime >=#{startTime}
+            </if>
+            <if test="endTime!=null">
+                and createtime  <![CDATA[<=]]> #{endTime}
+            </if>
+        </where>
+        order by createtime desc
+    </select>
 
 </mapper>

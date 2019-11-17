@@ -37,6 +37,18 @@
     </div>
 </div>
 
+<%--查看公告内容div开始--%>
+<div id="desk_viewNewsDiv" style="padding: 10px;display: none">
+    <h2 id="newsTitle" style="text-align: center"></h2>
+    <hr>    <%--分割线--%>
+    <div style="text-align: right">
+        发布人：<span id="newsOperName"></span><br>
+        发布时间：<span id="newsCreateTime"></span><br>
+    </div>
+    <div id="newsContent"></div>
+</div>
+<%--查看公告内容div结束--%>
+
 </body>
 
 <script type="text/javascript">
@@ -82,13 +94,13 @@
             parent.addTab($(this));
         })
 
-        //最新文章列表
-        $.get("layuicms2.0/json/newsList.json",function(data){
+        //最新公告列表
+        $.post("<%=basePath%>news/newsList",{page:1,limit:10},function(data){
             var hotNewsHtml = '';
             for(var i=0;i<5;i++){
-                hotNewsHtml += '<tr>'
-                    +'<td align="left"><a href="javascript:;"> '+data.data[i].newsName+'</a></td>'
-                    +'<td>'+data.data[i].newsTime.substring(0,10)+'</td>'
+                hotNewsHtml += '<tr onclick="viewNews('+data.data[i].id+')">'
+                    +'<td align="left">'+data.data[i].title+'</td>'
+                    +'<td>'+data.data[i].createtime.substring(0,10)+'</td>'
                     +'</tr>';
             }
             $(".hot_news").html(hotNewsHtml);
@@ -96,6 +108,27 @@
         })
 
     })
+
+    function viewNews(id) {
+        $.post("<%=basePath%>news/getNewsById?id="+id,function (data) {
+            layer.open({
+                type: 1
+                , title: '查看公告内容'
+                ,maxmin: true       //最大化/最小化
+                , content: $("#desk_viewNewsDiv")
+                , area: ['750px', '450px']     //弹窗宽高
+                ,success:function (index) {         //弹窗成功后回调
+                    //在弹出层加载成功后的回调方法中去掉最小化按钮；
+                    index.find('.layui-layer-min').remove();
+                    $("#newsTitle").html(data.title);
+                    $("#newsOperName").html(data.opername);
+                    $("#newsCreateTime").html(data.createtime);
+                    $("#newsContent").html(data.content);
+                }
+            });
+        })
+
+    }
 
 </script>
 

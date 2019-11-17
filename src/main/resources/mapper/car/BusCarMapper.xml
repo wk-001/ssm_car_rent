@@ -20,5 +20,31 @@
     <sql id="Base_Column_List">
         carnumber, cartype, color, price, rentprice, deposit, isrenting, description, carimg, createtime
     </sql>
+    <select id="queryAllCar" resultType="com.wk.car.pojo.BusCar">
+        select
+        <include refid="Base_Column_List"/>
+        from bus_car
+        <where>
+            <if test="carnumber!=null and carnumber!=''">
+                <bind name="carnumber" value=" '%' + carnumber + '%' "/>
+                and carnumber like #{carnumber}
+            </if>
+            <if test="cartype!=null and cartype!=''">
+                <bind name="cartype" value=" '%' + cartype + '%' "/>
+                and cartype like #{cartype}
+            </if>
+            <if test="color!=null and color!=''">
+                <bind name="color" value=" '%' + color + '%' "/>
+                and color like #{color}
+            </if>
+            <if test="description!=null and description!=''">
+                <bind name="description" value=" '%' + description + '%' "/>
+                and description like #{description}
+            </if>
+            <if test="isrenting!=null">
+                and isrenting =#{isrenting}
+            </if>
+        </where>
+    </select>
 
 </mapper>

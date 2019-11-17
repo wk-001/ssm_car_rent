@@ -35,7 +35,6 @@
                 <!-- and logintime &lt; = #{endTime} -->
                 and logintime  <![CDATA[<=]]> #{endTime}
             </if>
-
         </where>
         order by logintime desc
     </select>

@@ -65,4 +65,12 @@ public class SysController {
     public String toLogInfoMain(){
         return "system/logInfo/logInfoMain";
     }
+
+    /**
+     * 跳转到公告管理页面
+     */
+    @RequestMapping("toNewsMain")
+    public String toNewsMain(){
+        return "system/news/newsMain";
+    }
 }

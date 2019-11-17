@@ -21,7 +21,7 @@
 
 
     <!-- 配置数据源 -->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init">
         <property name="username" value="${dataSource.username}"></property>
         <property name="password" value="${dataSource.password}"></property>
         <property name="driverClassName" value="${dataSource.driverClass}"></property>

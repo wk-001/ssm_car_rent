@@ -8,7 +8,7 @@
 <head>
     <base href="<%=basePath%>">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>角色管理</title>
+    <title>公告管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -19,8 +19,6 @@
     <link rel="icon" href="<%=basePath%>layuicms2.0/favicon.ico">
     <link rel="stylesheet" href="<%=basePath%>layuicms2.0/layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="<%=basePath%>layuicms2.0/css/public.css" media="all" />
-    <link rel="stylesheet" href="<%=basePath%>layuicms2.0/layui_ext/dtree/dtree.css" media="all" />
-    <link rel="stylesheet" href="<%=basePath%>layuicms2.0/layui_ext/dtree/font/dtreefont.css" media="all" />
     <script type="text/javascript" src="<%=basePath%>layuicms2.0/layui/layui.js"></script>
 </head>
 <body>
@@ -36,30 +34,36 @@
 
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">角色名称：</label>
+                    <label class="layui-form-label">公告标题：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="rolename"class="layui-input">
+                        <input type="text" name="title"class="layui-input">
                     </div>
                 </div>
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">角色详情：</label>
+                    <label class="layui-form-label">公告内容：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="roledesc"class="layui-input">
+                        <input type="text" name="content"class="layui-input">
+                    </div>
+                </div>
+            
+                <div class="layui-inline">
+                    <label class="layui-form-label">开始时间：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="startTime" id="startTime" readonly="readonly" class="layui-input">
                     </div>
                 </div>
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">是否可用:</label>
+                    <label class="layui-form-label">结束时间：</label>
                     <div class="layui-input-inline">
-                        <input type="radio" name="available" value="1" title="可用">
-                        <input type="radio" name="available" value="0" title="不可用">
+                        <input type="text" name="endTime" id="endTime" readonly="readonly" class="layui-input">
                     </div>
                 </div>
 
                 <div class="layui-inline">
                     <button type="button" class="layui-btn layui-btn-normal layui-icon layui-icon-search" id="doSearch">查询</button>
-                    <button type="reset" class="layui-btn layui-btn-warm layui-icon layui-icon-refresh">重置</button>
+                    <button type="reset" id="dataFormReset" class="layui-btn layui-btn-warm layui-icon layui-icon-refresh">重置</button>
                 </div>
             </div>
 
@@ -68,8 +72,6 @@
         <!--工具栏按钮-->
         <div id="topToolBar" style="display: none">
             <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add">增加</button>
-            <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="update">编辑</button>
-            <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="delete">删除</button>
             <button type="button" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchDelete">批量删除</button>
             <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getSelect">获取选中行</button>
             <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="refreshTable">刷新表格</button>
@@ -81,7 +83,7 @@
         <!--数据编辑删除栏-->
         <div id="dataToolBar" style="display: none">
             <a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="assignMenu">分配菜单</a>
+            <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewNews">查看</a>
             <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
         </div>
 
@@ -89,30 +91,20 @@
         <div style="display: none;padding: 20px" id="saveOrUpdateDiv" >
             <form class="layui-form"  lay-filter="dataForm" id="dataForm">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">角色名称:</label>
+                    <label class="layui-form-label">公告标题:</label>
                     <div class="layui-input-block">
-                        <input type="hidden" name="roleid">     <%--修改时需要用到ID--%>
-                        <input type="text" name="rolename"  placeholder="请输入角色名称" autocomplete="off"
+                        <input type="hidden" name="id">     <%--修改时需要用到ID--%>
+                        <input type="text" name="title"  placeholder="请输入公告标题" autocomplete="off"
                                class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">角色详情:</label>
+                    <label class="layui-form-label">公告内容:</label>
                     <div class="layui-input-block">
-                        <input type="text" name="roledesc" placeholder="请输入角色详情" autocomplete="off"
-                               class="layui-input">
+                        <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="content"></textarea>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">是否可用:</label>
-                        <div class="layui-input-inline">
-                            <input type="radio" name="available" value="1" checked="checked" title="可用">
-                            <input type="radio" name="available" value="0" title="不可用">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item" style="padding-left:80px">
+                <div class="layui-form-item" style="text-align: center">
                     <div class="layui-input-block">
                         <button type="button" class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-release" lay-filter="doSubmit" lay-submit="">提交</button>
                         <button type="reset" class="layui-btn layui-btn-warm layui-btn-sm layui-icon layui-icon-refresh" >重置</button>
@@ -122,11 +114,17 @@
         </div>
         <!-- 添加和修改的弹出层结束 -->
 
-        <%--角色分配菜单开始--%>
-        <div style="display: none" id="selectMenuTree">
-            <ul id="menuTree" class="dtree" data-id="0"></ul>
+        <%--查看公告内容div开始--%>
+        <div id="viewNewsDiv" style="padding: 10px;display: none">
+            <h2 id="newsTitle" style="text-align: center"></h2>
+            <hr>    <%--分割线--%>
+            <div style="text-align: right">
+                发布人：<span id="newsOperName"></span><br>
+                发布时间：<span id="newsCreateTime"></span>
+            </div>
+            <div id="newsContent"></div>
         </div>
-        <%--角色分配菜单结束--%>
+        <%--查看公告内容div结束--%>
 
     </div>
 </div>
@@ -141,47 +139,47 @@
 </style>
 <script type="text/javascript">
     var tableIns;       //定义全局变量 使layui方法块外也可以调用表格
-    layui.extend({
-        dtree: '<%=basePath%>layuicms2.0/layui_ext/dist/dtree'   // dtree.js所在位置；{/}的意思即代表采用自有路径，即不跟随 base 路径
-    }).use(['jquery','element','form','layer','table','dtree'], function(){
+    layui.use(['jquery','element','form','layer','table','laydate','layedit'], function(){
         var $ = layui.jquery
             ,element = layui.element
             ,form = layui.form
             ,layer = layui.layer
             ,table = layui.table
-            ,dtree = layui.dtree
+            ,laydate = layui.laydate
+            ,layedit = layui.layedit
+
+            var editIndex;
+
+        //渲染时间组件
+        laydate.render({
+            elem:"#startTime",
+            type:"datetime"
+        })
+        laydate.render({
+            elem:"#endTime",
+            type:"datetime"
+        })
 
         //渲染数据表格
         tableIns = table.render({
             elem: '#dataTable'      //渲染目标对象 数据表格对应ID
             ,height: 'full-180'            //数据表格高度 可用高度-指定高度
             ,method: 'post'
-            ,url: "<%=basePath%>role/roleList"
+            ,url: "<%=basePath%>news/newsList"
             ,page: true //开启分页
             ,toolbar:"#topToolBar"     //引用表头工具栏 topToolBar是div的ID
             ,defaultToolbar: ['filter', 'print', 'exports']     //修改默认工具栏的功能和顺序
-            //,limits: [10, 20, 30]   //可显示的数据条数
-            //,limit: 10              //每页默认显示的数量
             ,even: true             //开启隔行背景
-            //,totalRow:true	    //开启合并行
             ,text: {
                 none: '暂无相关数据' //无数据时显示的内容 默认：无数据。
             }
-            /*,done: function(res, curr, count){      //数据渲染完的回调
-                //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                console.log(res);
-                console.log(curr);      //得到当前页码
-                console.log(count);     //得到数据总量
-            }*/
             ,cols: [[ //表头
                 {type:'checkbox', fixed: 'left'}    //fixed冻结列的位置
-                ,{field:'roleid', title:'ID',align:'center'}
-                ,{field:'rolename', title:'角色名称',align:'center'}
-                ,{field:'roledesc', title:'角色详情',align:'center'}
-                ,{field:'available', title:'是否可用',align:'center',templet:function(d){
-                        return d.available=='1'?'<span style="color: blue;">可用</span>':'<span style="color: red;">不可用</span>';
-                    }}
+                ,{field:'id', title:'ID',align:'center'}
+                ,{field:'title', title:'公告标题',align:'center'}
+                //,{field:'content', title:'公告内容',align:'center'}
+                ,{field:'createtime', title:'公告时间',align:'center'}
+                ,{field:'opername', title:'发布人',align:'center'}
                 ,{fixed: 'right', title:'操作', toolbar: '#dataToolBar',align:'center'}
             ]]
             ,done: function(res, curr, count){
@@ -192,27 +190,20 @@
                     });
                 }
             }
-
         });
 
         //监听头部工具栏事件 dataTable:数据表格的ID
         table.on('toolbar(dataTable)', function(obj){
             switch(obj.event){
                 case 'add':             //工具栏按钮lay-event="add"属性的值
-                    openAddRole();
-                    break;
-                case 'delete':
-                    layer.msg('删除');
+                    openAddNews();
                     break;
                 case 'batchDelete':
                     batchDelete();
                     break;
-                case 'update':
-                    layer.msg('编辑');
-                    break;
                 case 'refreshTable':        //在不刷新页面的情况刷新表格数据
                     /*table.reload("dataTable", {
-                        url: '/json/user.json/'
+                        url: '/json/news.json/'
                     });*/
                     tableIns.reload();      //在不刷新页面的情况刷新表格数据
                     break;
@@ -225,21 +216,15 @@
             };
         });
 
-        //角色模糊查询
+        //公告模糊查询
         $("#doSearch").click(function () {
             var params = $("#searchData").serialize();
-            console.log(params);
             tableIns.reload({
-                url:"<%=basePath%>role/roleList?"+params
+                url:"<%=basePath%>news/newsList?"+params,
+                page:{curr:1}           //每次查询从第一页开始
             });
         })
 
-        // 监听复选框事件 dataTable:数据表格的ID
-        /*table.on('checkbox(dataTable)', function(obj){
-            console.log(obj.checked); //当前是否选中状态
-            console.log(obj.data); //选中行的相关数据
-            console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
-        });*/
 
         //监听单元格编辑 单元格被编辑，且值发生改变时触发，前提是单元格设置为可编辑
         // 回调函数返回一个object参数 dataTable:数据表格的ID
@@ -250,22 +235,6 @@
             //发送post请求更新数据库数据
         });
 
-        //监听行单击事件
-        table.on('row(dataTable)', function(obj){
-            console.log(obj.tr) //得到当前行元素对象
-            console.log(obj.data) //得到当前行数据
-            //obj.del(); //删除当前行
-            //obj.update(fields) //修改当前行数据
-        });
-
-//监听行双击事件
-        /*table.on('rowDouble(dataTable)', function(obj){
-            console.log(obj.tr) //得到当前行元素对象
-            console.log(obj.data) //得到当前行数据
-            //obj.del(); //删除当前行
-            //obj.update(fields) //修改当前行数据
-        });*/
-
         //监听工具条  注：tool 是工具条事件名，dataTable 是 table 原始容器的属性 lay-filter="对应的值"
         table.on('tool(dataTable)', function(obj){
             var data = obj.data; //获得当前行数据
@@ -273,57 +242,58 @@
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
             if(layEvent === 'del'){ //删除
-                layer.confirm('确定删除角色['+data.rolename+']吗？', function(index){
+                layer.confirm('确定删除公告['+data.title+ ']吗？', function(index){
                     obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                     layer.close(index);
                     //向服务端发送删除指令
-                    $.post("<%=basePath%>role/deleteRole",{"roleid":data.roleid},function (result) {
+                    $.post("<%=basePath%>news/deleteNews",{"id":data.id},function (result) {
                         layer.msg(result.msg);
                         // 刷新数据表格
                         tableIns.reload();      //在不刷新页面的情况刷新表格数据
                     })
                 });
-            } else if(layEvent === 'edit'){ //编辑
-                openUpdRole(data);      //修改当前行数据
-            } else if(layEvent === 'assignMenu'){   //角色分配权限
-                openMenuTree(data);
+            }else if(layEvent === 'edit'){ //编辑
+                openUpdNews(data);      //修改当前行数据
+            }else if(layEvent === 'viewNews'){ //给公告分配角色
+                openViewNews(data);
             }
         });
 
         var url = "";       //区分添加和修改提交的URL
         var mainModel = "";     //弹窗对象
-        //打开添加用户弹出框
-        function openAddRole(){
+        //打开添加公告弹出框
+        function openAddNews(){
             mainModel = layer.open({
                 type: 1
-                ,title:'添加角色'
+                ,title:'添加公告'
                 ,content:$("#saveOrUpdateDiv")
-                ,maxmin: true       //最大化/最小化
-                ,area: ['550px','300px']     //弹窗宽高
+                ,area: ['750px','450px']     //弹窗宽高
                 ,success:function (index) {
-                    //在弹出层加载成功后的回调方法中去掉最小化按钮；
-                    index.find('.layui-layer-min').remove();
+                    //打开弹窗后再渲染富文本编辑器，否则无法使用表情
+                    editIndex = layedit.build('content',{
+                        height: 200 //设置编辑器高度
+                    });      //初始化富文本编辑器
                     //打开弹窗清空整个form表单,jquery对象获取的是所有对象的数组，数组中是dom对象，dom对象才有reset();方法
                     $("#dataForm")[0].reset();
-                    url = "<%=basePath%>role/addRole";
+                    url = "<%=basePath%>news/addNews";
                 }
             });
         }
 
-        //打开修改用户弹出框
-        function openUpdRole(data) {
+        //打开修改公告弹出框
+        function openUpdNews(data) {
             mainModel = layer.open({
                 type: 1
-                , title: '修改角色信息'
-                ,maxmin: true       //最大化/最小化
+                , title: '修改公告信息'
                 , content: $("#saveOrUpdateDiv")
-                , area: ['550px', '300px']     //弹窗宽高
+                , area: ['750px', '450px']     //弹窗宽高
                 ,success:function (index) {         //弹窗成功后回调
-                    //在弹出层加载成功后的回调方法中去掉最小化按钮；
-                    index.find('.layui-layer-min').remove();
+                    editIndex = layedit.build('content',{
+                        height: 200 //设置编辑器高度
+                    });      //初始化富文本编辑器
                     //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
                     form.val("dataForm",data);
-                    url = "<%=basePath%>role/updateRole";
+                    url = "<%=basePath%>news/updateNews";
                 }
             });
         }
@@ -334,14 +304,14 @@
             var checkStatus = table.checkStatus('dataTable')
                 list="";
             for(var i=0;i<checkStatus.data.length;i++){
-                list+=','+checkStatus.data[i].roleid;
+                list+=','+checkStatus.data[i].id;
             }
             list = list.substr(1);
             alert(list);
-            layer.confirm('确定删除选中角色吗？', function(index){
+            layer.confirm('确定删除选中公告吗？', function(index){
                 layer.close(index);
                 //向服务端发送删除指令
-                $.post("<%=basePath%>role/batchDeleteRole",{"ids":list},function (result) {
+                $.post("<%=basePath%>news/batchDeleteNews",{"ids":list},function (result) {
                     layer.msg(result.msg);
                     // 刷新数据表格
                     tableIns.reload();      //在不刷新页面的情况刷新表格数据
@@ -349,49 +319,28 @@
             });
         }
 
-        //角色分配权限菜单
-        function openMenuTree(data){
-            var menuTree;
+        //查看公告内容
+        function openViewNews(data){
             mainModel = layer.open({
                 type: 1
-                ,title:'为角色['+data.rolename+']分配权限'
-                ,content:$("#selectMenuTree")
+                , title: '查看公告内容'
                 ,maxmin: true       //最大化/最小化
-                ,area: ['400px','500px']     //弹窗宽高
-                ,btnAlign: 'c'
-                ,btn: ['<div class="layui-icon layui-icon-ok">保存</div>', '<div class="layui-icon layui-icon-close">关闭</div>']
-                ,yes: function(index, layero){
-                    //获取复选框选中值
-                    var nodes = dtree.getCheckbarNodesParam("menuTree");
-                    var roleid = data.roleid;
-                    var params = "roleid="+roleid;
-                    $.each(nodes,function (i, item) {
-                        params+="&ids="+item.nodeId;
-                    })
-                    $.post("<%=basePath%>roleMenu/editRoleMenu",params,function (obj) {
-                        layer.msg(obj.msg);
-                    })
-                }
-                ,success:function (index) {
+                , content: $("#viewNewsDiv")
+                , area: ['750px', '450px']     //弹窗宽高
+                ,success:function (index) {         //弹窗成功后回调
                     //在弹出层加载成功后的回调方法中去掉最小化按钮；
                     index.find('.layui-layer-min').remove();
-                    //初始化树
-                    menuTree = dtree.render({
-                        elem: "#menuTree",  //页面容器
-                        url: "<%=basePath%>menu/roleMenuTree?roleid="+data.roleid,
-                        dataStyle: "layuiStyle",  //使用layui风格的数据格式
-                        dataFormat: "list",  //配置data的风格为list
-                        response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
-                        checkbar: true,
-                        checkbarType: "no-all",// 默认就是all上下级联，其他的值为： no-all半选  p-casc   self  only
-                        skin: "layui"
-                    });
+                   $("#newsTitle").html(data.title);
+                   $("#newsOperName").html(data.opername);
+                   $("#newsCreateTime").html(data.createtime);
+                   $("#newsContent").html(data.content);
                 }
             });
         }
 
         //保存数据，监听submit
         form.on('submit(doSubmit)', function(obj) {
+           layedit.sync(editIndex);     //将富文本编辑器中的值同步到文本域中
             //序列化表单数据
             var params = $("#dataForm").serialize();
             $.post(url,params,function (obj) {
@@ -403,11 +352,15 @@
             })
         })
 
+        $("#dataFormReset").click(function () {
+            layedit.setContent(editIndex,"");       //重置富文本编辑框的内容
+        });
+
     });
 
     function reloadTable(id){
         tableIns.reload({
-            url:"<%=basePath%>role/roleList?id="+id
+            url:"<%=basePath%>news/newsList?id="+id
         });
     }
 

@@ -10,7 +10,7 @@
     <!--sprimgMVC的配置文件，包含网址跳转逻辑的控制-->
 
     <!--只扫描controller层的注解-->
-    <context:component-scan base-package="com.wk.sys.controller"/>
+    <context:component-scan base-package="com.wk.sys.controller,com.wk.car.controller"/>
 
     <!--配置视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -3,6 +3,8 @@ package com.wk.car.dao;
 import com.wk.car.pojo.BusCar;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BusCarMapper extends BaseMapper<BusCar> {
 
+    List<BusCar> queryAllCar(BusCar car);
 }

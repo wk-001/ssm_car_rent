@@ -17,5 +17,36 @@
     <sql id="Base_Column_List">
         identity, custname, sex, address, phone, career, createtime
     </sql>
+    <select id="queryAllCustomer" resultType="com.wk.car.pojo.BusCustomer">
+        select
+        <include refid="Base_Column_List"/>
+        from bus_customer
+        <where>
+            <if test="identity!=null and identity!=''">
+                <bind name="identity" value=" '%' + identity + '%' "/>
+                and identity like #{identity}
+            </if>
+            <if test="custname!=null and custname!=''">
+                <bind name="custname" value=" '%' + custname + '%' "/>
+                and custname like #{custname}
+            </if>
+            <if test="address!=null and address!=''">
+                <bind name="address" value=" '%' + address + '%' "/>
+                and address like #{address}
+            </if>
+            <if test="phone!=null and phone!=''">
+                <bind name="phone" value=" '%' + phone + '%' "/>
+                and phone like #{phone}
+            </if>
+            <if test="career!=null and career!=''">
+                <bind name="career" value=" '%' + career + '%' "/>
+                and career like #{career}
+            </if>
+            <if test="sex!=null">
+                and sex =#{sex}
+            </if>
+        </where>
+        order by createtime desc
+    </select>
 
 </mapper>

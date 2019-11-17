@@ -1,11 +1,13 @@
 package com.wk;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wk.car.service.BusCustomerService;
 import com.wk.sys.dao.SysMenuMapper;
 import com.wk.sys.pojo.SysUser;
 import com.wk.sys.service.SysRoleMenuService;
 import com.wk.sys.service.SysUserService;
 import com.wk.sys.vo.SysRoleVo;
+import org.apache.ibatis.annotations.Param;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration    //获取web的IOC
@@ -39,10 +42,13 @@ public class CodeTest {
     private SysUserService userService;
 
     @Autowired
-    private SysRoleMenuService sysRoleMenuService;
+    private SysRoleMenuService roleMenuService;
 
     @Resource
     private SysMenuMapper menuMapper;
+
+    @Autowired
+    private BusCustomerService customerService;
 
    /* @Autowired*/
     private ObjectMapper mapper;        //jackson对象
@@ -91,10 +97,7 @@ public class CodeTest {
     @Test
     @Transactional      //自动回滚，不会污染数据库数据
     public void testBatchInsert(){
-        SysRoleVo sysRoleVo = new SysRoleVo();
-        sysRoleVo.setRoleid(7);
-        Integer[] ids = {1,2,3,4,5};
-        sysRoleVo.setIds(ids);
-        sysRoleMenuService.editRoleMenu(sysRoleVo);
+        String[] ids = {"11231561591","421087133414144412"};
+        customerService.removeByIds(Arrays.asList(ids));
     }
 }

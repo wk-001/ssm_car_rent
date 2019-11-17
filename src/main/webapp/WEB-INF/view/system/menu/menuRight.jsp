@@ -206,6 +206,14 @@
                     }}
                 ,{fixed: 'right', title:'操作', toolbar: '#menuBar', width:150,align:'center'}
             ]]
+            ,done: function(res, curr, count){
+                //如果当前页面数据全部删除，并且不是第一页的情况，就跳转到前一页
+                if(data.data.length==0&&curr!=1){
+                    tableIns.reload({
+                        page:{curr:curr-1}           //跳转到前一页
+                    });
+                }
+            }
         });
 
         //监听头部工具栏事件 menuTable:数据表格的ID
