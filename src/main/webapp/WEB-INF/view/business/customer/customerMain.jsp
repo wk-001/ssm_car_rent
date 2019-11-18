@@ -122,7 +122,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">身份证号:</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="identity"  placeholder="请输入客户身份证号" autocomplete="off"
+                            <input type="text" name="identity" id="identity"  placeholder="请输入客户身份证号" autocomplete="off"
                                    class="layui-input">
                         </div>
                     </div>
@@ -310,6 +310,7 @@
                     index.find('.layui-layer-min').remove();
                     //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
                     form.val("dataForm",data);
+                    $("#identity").attr("readonly","readonly");    //车牌号作为主键不能修改
                     url = "<%=basePath%>customer/updateById";
                 }
             });

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
-import java.util.Date;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * <p>
@@ -71,6 +71,12 @@ public class BusCarController {
     @RequestMapping("deleteById")
     public ResultObj deleteById(String id){
         try {
+            //删除对应的图片
+            BusCar car = busCarService.getById(id);
+            //不删除默认图片
+            if(!car.getCarimg().equals(SysConstast.DEFAULT_CAR_IMG)){
+                AppFileUtils.removeFileByPath(car.getCarimg());
+            }
             busCarService.removeById(id);
             return ResultObj.OPERAT_SUCCESS;
         } catch (Exception e) {
@@ -87,6 +93,12 @@ public class BusCarController {
     @RequestMapping("batchDelete")
     public ResultObj batchDelete(String[] ids){
         try {
+            Collection<BusCar> list = busCarService.listByIds(Arrays.asList(ids));
+            for (BusCar busCar : list) {
+                if(!busCar.getCarimg().equals(SysConstast.DEFAULT_CAR_IMG)) {
+                    AppFileUtils.removeFileByPath(busCar.getCarimg());
+                }
+            }
             busCarService.removeByIds(Arrays.asList(ids));
             return ResultObj.OPERAT_SUCCESS;
         } catch (Exception e) {
@@ -103,6 +115,15 @@ public class BusCarController {
     @RequestMapping("updateById")
     public ResultObj updateById(BusCar busCar){
         try {
+            //如果修改图片以_temp结尾就把后缀去掉
+            if(busCar.getCarimg().endsWith(SysConstast.FILE_UPLOAD_TEMP)){
+                String fileName = AppFileUtils.updateFileName(busCar.getCarimg(), SysConstast.FILE_UPLOAD_TEMP);
+                busCar.setCarimg(fileName);
+
+                //删除修改前的图片
+                BusCar car = busCarService.getById(busCar.getCarnumber());
+                AppFileUtils.removeFileByPath(car.getCarimg());
+            }
             busCarService.updateById(busCar);
             return ResultObj.OPERAT_SUCCESS;
         } catch (Exception e) {

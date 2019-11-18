@@ -220,7 +220,7 @@
 
         <!-- 查看大图弹出的层 开始 -->
         <div id="viewCarImageDiv" style="display: none;text-align: center;">
-            <img alt="车辆图片" width="550" height="350" id="view_carimg">
+            <img alt="车辆图片" width="580" height="780" id="view_carimg">
         </div>
         <!-- 查看大图弹出的层 结束 -->
 
@@ -378,8 +378,8 @@
                     //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
                     form.val("dataForm", data);
                     $("#showCarImg").attr("src","<%=basePath%>file/downloadShowFile?path="+data.carimg);
-                    $("#carnumber").attr("readonly","readonly");
-                    url = "<%=basePath%>busCar/updateCar";
+                    $("#carnumber").attr("readonly","readonly");    //车牌号作为主键不能修改
+                    url = "<%=basePath%>busCar/updateById";
                 }
             });
         }
@@ -426,7 +426,7 @@
                 title:"【"+data.carnumber+'】的车辆图片',
                 content:$("#viewCarImageDiv"),
                 maxmin: true,       //最大化/最小化
-                area:['600px','400px'],
+                area:['600px','800px'],
                 success:function(index){
                     //在弹出层加载成功后的回调方法中去掉最小化按钮；
                     index.find('.layui-layer-min').remove();
