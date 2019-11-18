@@ -71,9 +71,6 @@
 
         <!--工具栏按钮-->
         <div id="topToolBar" style="display: none">
-            <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add">增加</button>
-            <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="update">编辑</button>
-            <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="delete">删除</button>
             <button type="button" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchDelete">批量删除</button>
             <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getSelect">获取选中行</button>
             <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="refreshTable">刷新表格</button>
@@ -85,7 +82,6 @@
         <!--数据编辑删除栏-->
         <div id="dataToolBar" style="display: none">
             <a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="assignMenu">分配菜单</a>
             <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
         </div>
 
@@ -123,7 +119,7 @@
         //渲染数据表格
         tableIns = table.render({
             elem: '#dataTable'      //渲染目标对象 数据表格对应ID
-            ,height: 'full-180'            //数据表格高度 可用高度-指定高度
+            ,height: 'full-210'            //数据表格高度 可用高度-指定高度
             ,method: 'post'
             ,url: "<%=basePath%>log/logList"
             ,page: true //开启分页
@@ -143,7 +139,7 @@
             ]]
             ,done: function(res, curr, count){
                 //如果当前页面数据全部删除，并且不是第一页的情况，就跳转到前一页
-                if(data.data.length==0&&curr!=1){
+                if(res.data.length==0&&curr!=1){
                     tableIns.reload({
                         page:{curr:curr-1}           //跳转到前一页
                     });

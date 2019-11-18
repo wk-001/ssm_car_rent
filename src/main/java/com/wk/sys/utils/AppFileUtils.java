@@ -1,36 +1,23 @@
 package com.wk.sys.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.net.URLEncoder;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+
 public class AppFileUtils {
 	
 	/**
 	 * 得到文件上传的路径
 	 */
-	public static String PATH="E:/upload/";
-	static {
-		InputStream stream = AppFileUtils.class.getClassLoader().getResourceAsStream("file.properties");
-		Properties properties=new Properties();
-		try {
-			properties.load(stream);
-			PATH=properties.getProperty("path");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	public static String PATH="D:/upload/";
 
 	/**
 	 * 文件下载
@@ -81,9 +68,10 @@ public class AppFileUtils {
 		}
 	}
 
+
 	/**
 	 * 根据相对路径删除硬盘上文件
-	 * @param path2
+	 * @param path
 	 */
 	public static void deleteFileUsePath(String path) {
 		String realPath=PATH+path;
@@ -91,6 +79,41 @@ public class AppFileUtils {
 		File file=new File(realPath);
 		if(file.exists()) {
 			file.delete();
+		}
+	}
+
+
+	/**
+	 * 更改文件名 去掉临时文件的_temp后缀
+	 * @param carimg
+	 */
+	public static String updateFileName(String carimg,String suffix) {
+		//找到文件
+		try {
+			File file=new File(PATH,carimg);
+			if(file.exists()) {
+				file.renameTo(new File(PATH,carimg.replace(suffix, "")));
+				return carimg.replace(suffix, "");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
+	/**
+	 * 根据路径 删除图片
+	 * @param carimg
+	 */
+	public static void removeFileByPath(String carimg) {
+		try {
+			File file=new File(PATH,carimg);
+			if(file.exists()) {
+				file.delete();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

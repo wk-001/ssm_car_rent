@@ -4,6 +4,8 @@ package com.wk.car.controller;
 import com.wk.car.pojo.BusCar;
 import com.wk.car.service.BusCarService;
 import com.wk.car.vo.BusCarVo;
+import com.wk.sys.constast.SysConstast;
+import com.wk.sys.utils.AppFileUtils;
 import com.wk.sys.utils.DataGrid;
 import com.wk.sys.utils.ResultObj;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +48,13 @@ public class BusCarController {
      */
     @RequestMapping("addCar")
     public ResultObj addCar(BusCar busCar){
-        busCar.setCreatetime(new Date());
         try {
+            busCar.setCreatetime(new Date());
+            //默认图片不做改动，新上传的图片去掉临时后缀_temp
+            if(!busCar.getCarimg().equals(SysConstast.DEFAULT_CAR_IMG)){
+                String fileName = AppFileUtils.updateFileName(busCar.getCarimg(), SysConstast.FILE_UPLOAD_TEMP);
+                busCar.setCarimg(fileName);
+            }
             busCarService.save(busCar);
             return ResultObj.OPERAT_SUCCESS;
         } catch (Exception e) {

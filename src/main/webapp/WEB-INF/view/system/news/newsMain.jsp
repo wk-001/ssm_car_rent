@@ -163,7 +163,7 @@
         //渲染数据表格
         tableIns = table.render({
             elem: '#dataTable'      //渲染目标对象 数据表格对应ID
-            ,height: 'full-180'            //数据表格高度 可用高度-指定高度
+            ,height: 'full-210'            //数据表格高度 可用高度-指定高度
             ,method: 'post'
             ,url: "<%=basePath%>news/newsList"
             ,page: true //开启分页
@@ -184,7 +184,7 @@
             ]]
             ,done: function(res, curr, count){
                 //如果当前页面数据全部删除，并且不是第一页的情况，就跳转到前一页
-                if(data.data.length==0&&curr!=1){
+                if(res.data.length==0&&curr!=1){
                     tableIns.reload({
                         page:{curr:curr-1}           //跳转到前一页
                     });

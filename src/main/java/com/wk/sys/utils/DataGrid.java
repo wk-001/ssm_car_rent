@@ -2,8 +2,6 @@ package com.wk.sys.utils;
 
 import lombok.Data;
 
-import java.util.List;
-
 /**
  * 封装数据表格需要的数据对象
  */
@@ -16,13 +14,13 @@ public class DataGrid {
 
     private Long count;
 
-    private List<?> data;
+    private Object data;
 
-    public DataGrid(List<?> data) {
+    public DataGrid(Object data) {
         this.data = data;
     }
 
-    public DataGrid(Long count, List<?> data) {
+    public DataGrid(Long count, Object data) {
         this.count = count;
         this.data = data;
     }
