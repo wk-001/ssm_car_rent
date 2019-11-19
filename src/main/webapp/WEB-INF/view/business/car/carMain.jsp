@@ -273,7 +273,7 @@
                 , {field: 'description', title: '车辆描述', align: 'center'}
                 , {field: 'createtime', title: '录入时间', align: 'center'}
                 , {field: 'isrenting', title: '出租状态', align: 'center', templet: function (d) {
-                        return d.available == '1' ? '<span style="color: blue;">已出租</span>' : '<span style="color: red;">未出租</span>';
+                        return d.isrenting == '1' ? '<span style="color: blue;">已出租</span>' : '<span style="color: red;">未出租</span>';
                     }}
                 ,{field:'carimg', title:'缩略图',align:'center',templet:function(d){
                         return "<img width=40 height=30 src=<%=basePath%>file/downloadShowFile?path="+d.carimg+" />";

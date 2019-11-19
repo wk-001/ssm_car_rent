@@ -20,5 +20,5 @@ public class ResultObj {
     }
 
     public static final ResultObj OPERAT_SUCCESS=new ResultObj(SysConstast.CODE_SUCCESS,SysConstast.OPERAT_SUCCESS);
-    public static final ResultObj OPERAT_FAIL =new ResultObj(SysConstast.CODE_SUCCESS,SysConstast.OPERAT_FAIL);
+    public static final ResultObj OPERAT_FAIL =new ResultObj(SysConstast.CODE_ERROR,SysConstast.OPERAT_FAIL);
 }

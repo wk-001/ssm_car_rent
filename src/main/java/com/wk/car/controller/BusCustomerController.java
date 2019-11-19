@@ -8,7 +8,6 @@ import com.wk.sys.utils.DataGrid;
 import com.wk.sys.utils.ResultObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
@@ -104,4 +103,18 @@ public class BusCustomerController {
         return ResultObj.OPERAT_FAIL;
     }
 
+    /**
+     * 根据ID查询客户
+     * @param busCustomer
+     * @return
+     */
+    @RequestMapping("getById")
+    public ResultObj getById(BusCustomer busCustomer){
+        BusCustomer customer = customerService.getById(busCustomer.getIdentity());
+        if (customer != null) {
+            return ResultObj.OPERAT_SUCCESS;
+        }else {
+            return ResultObj.OPERAT_FAIL;
+        }
+    }
 }

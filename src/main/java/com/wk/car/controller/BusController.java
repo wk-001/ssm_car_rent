@@ -20,8 +20,17 @@ public class BusController {
      * 跳转到车辆管理页面
      * @return
      */
-    @RequestMapping("toCaMain")
+    @RequestMapping("toCarMain")
     public String toCaMain(){
         return "business/car/carMain";
+    }
+
+    /**
+     * 跳转到车辆出租页面
+     * @return
+     */
+    @RequestMapping("toRentCar")
+    public String toRentCar(){
+        return "business/rent/rentCar";
     }
 }

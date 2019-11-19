@@ -81,7 +81,6 @@
 
         <!--数据编辑删除栏-->
         <div id="dataToolBar" style="display: none">
-            <a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
         </div>
 
