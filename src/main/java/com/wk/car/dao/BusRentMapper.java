@@ -2,6 +2,9 @@ package com.wk.car.dao;
 
 import com.wk.car.pojo.BusRent;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wk.car.vo.BusRentVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BusRentMapper extends BaseMapper<BusRent> {
 
+    /**
+     * 查询所有出租单
+     */
+    List<BusRent> queryAllRent(BusRentVo busRentVo);
 }

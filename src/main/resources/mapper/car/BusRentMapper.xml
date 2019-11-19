@@ -19,5 +19,35 @@
     <sql id="Base_Column_List">
         rentid, price, begindate, returndate, rentflag, identity, carnumber, opername, createtime
     </sql>
+    <select id="queryAllRent" resultType="com.wk.car.pojo.BusRent">
+        select
+        <include refid="Base_Column_List"/>
+        from bus_rent
+        <where>
+            <if test="carnumber!=null and carnumber!=''">
+                <bind name="carnumber" value=" '%' + carnumber + '%' "/>
+                and carnumber like #{carnumber}
+            </if>
+            <if test="identity!=null and identity!=''">
+                <bind name="identity" value=" '%' + identity + '%' "/>
+                and identity like #{identity}
+            </if>
+            <if test="rentid!=null and rentid!=''">
+                <bind name="rentid" value=" '%' + rentid + '%' "/>
+                and rentid like #{rentid}
+            </if>
+            <if test="startTime!=null">
+                and createtime >=#{startTime}
+            </if>
+            <if test="endTime!=null">
+                <!-- and logintime &lt; = #{endTime} -->
+                and createtime  <![CDATA[<=]]> #{endTime}
+            </if>
+            <if test="rentflag!=null">
+                and rentflag =#{rentflag}
+            </if>
+        </where>
+        order by createtime desc
+    </select>
 
 </mapper>

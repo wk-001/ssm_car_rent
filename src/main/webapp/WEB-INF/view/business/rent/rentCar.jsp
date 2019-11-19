@@ -125,12 +125,12 @@
                 <div class="layui-form-item">
                         <label class="layui-form-label">起租时间:</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="begindate" id="begindate" readonly="readonly" placeholder="请选择起租时间" class="layui-input">
+                            <input type="text" name="begindate" id="begindate" lay-verify="required" readonly="readonly" placeholder="请选择起租时间" class="layui-input">
                         </div>
 
                         <label class="layui-form-label">还车时间:</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="returndate" id="returndate" readonly="readonly" placeholder="请选择还车时间" class="layui-input">
+                            <input type="text" name="returndate" id="returndate" lay-verify="required" readonly="readonly" placeholder="请选择还车时间" class="layui-input">
                         </div>
                 </div>
                 <div class="layui-form-item">

@@ -8,6 +8,7 @@ import com.wk.car.service.BusRentService;
 import com.wk.car.vo.BusRentVo;
 import com.wk.sys.constast.SysConstast;
 import com.wk.sys.pojo.SysUser;
+import com.wk.sys.utils.DataGrid;
 import com.wk.sys.utils.RandomUtils;
 import com.wk.sys.utils.ResultObj;
 import com.wk.sys.utils.WebUtils;
@@ -73,6 +74,11 @@ public class BusRentController {
 			e.printStackTrace();
 		}
 		return ResultObj.OPERAT_FAIL;
+	}
+
+	@RequestMapping("rentList")
+	public DataGrid rentList(BusRentVo busRentVo){
+		return rentService.queryAllRent(busRentVo);
 	}
 
 }
