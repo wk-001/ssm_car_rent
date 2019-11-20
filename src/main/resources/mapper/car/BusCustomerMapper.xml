@@ -48,5 +48,14 @@
         </where>
         order by createtime desc
     </select>
+    <select id="queryCustomerArea" resultType="com.wk.sys.pojo.Stat">
+        SELECT
+            address NAME,
+            count( 1 )  VALUE
+        FROM
+            `bus_customer`
+        GROUP BY
+            address
+    </select>
 
 </mapper>
