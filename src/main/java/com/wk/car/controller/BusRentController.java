@@ -76,9 +76,60 @@ public class BusRentController {
 		return ResultObj.OPERAT_FAIL;
 	}
 
+	/**
+	 * 查询所有出租单
+	 * @param busRentVo
+	 * @return
+	 */
 	@RequestMapping("rentList")
 	public DataGrid rentList(BusRentVo busRentVo){
 		return rentService.queryAllRent(busRentVo);
 	}
 
+	/**
+	 * 根据ID删除出租单
+	 * @param busRent
+	 * @return
+	 */
+	@RequestMapping("deleteById")
+	public ResultObj deleteById(BusRent busRent){
+		//汽车状态改为未出租
+		BusCar car = new BusCar();
+		car.setCarnumber(busRent.getCarnumber());
+		car.setIsrenting(SysConstast.RENT_CAR_FALSE);
+		try {
+			carService.updateById(car);
+			rentService.removeById(busRent.getRentid());
+			return ResultObj.OPERAT_SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResultObj.OPERAT_FAIL;
+	}
+
+	/**
+	 * 根据ID修改出租单
+	 * @param busRent
+	 * @return
+	 */
+	@RequestMapping("updateById")
+	public ResultObj updateById(BusRent busRent){
+		try {
+			rentService.updateById(busRent);
+			return ResultObj.OPERAT_SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResultObj.OPERAT_FAIL;
+	}
+
+	/**
+	 * 根据出租单号查询出租单信息
+	 * @param rentid
+	 * @return
+	 */
+	@RequestMapping("getById")
+	public BusRent getById(String rentid){
+		return rentService.getById(rentid);
+	}
 }

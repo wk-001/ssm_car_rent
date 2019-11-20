@@ -18,5 +18,35 @@
     <sql id="Base_Column_List">
         checkid, checkdate, checkdesc, problem, paymoney, opername, rentid, createtime
     </sql>
+    <select id="queryAllCheck" resultType="com.wk.car.pojo.BusCheck">
+        select
+        <include refid="Base_Column_List"/>
+        from bus_check
+        <where>
+            <if test="checkid!=null and checkid!=''">
+                <bind name="checkid" value=" '%' + checkid + '%' "/>
+                and checkid like #{checkid}
+            </if>
+            <if test="rentid!=null and rentid!=''">
+                <bind name="rentid" value=" '%' + rentid + '%' "/>
+                and rentid like #{rentid}
+            </if>
+            <if test="problem!=null and problem!=''">
+                <bind name="problem" value=" '%' + problem + '%' "/>
+                and problem like #{problem}
+            </if>
+            <if test="checkdesc!=null and checkdesc!=''">
+                <bind name="checkdesc" value=" '%' + checkdesc + '%' "/>
+                and checkdesc like #{checkdesc}
+            </if>
+            <if test="startTime!=null">
+                and createtime >=#{startTime}
+            </if>
+            <if test="endTime!=null">
+                and createtime  <![CDATA[<=]]> #{endTime}
+            </if>
+        </where>
+        order by createtime desc
+    </select>
 
 </mapper>

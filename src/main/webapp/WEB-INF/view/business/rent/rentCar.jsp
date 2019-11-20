@@ -58,10 +58,10 @@
 
         <form class="layui-form" method="post" id="searchData">
             <div class="layui-row">
-                <div class="layui-form-item layui-col-md6 layui-col-md-offset3">
-                    <div class="layui-inline">
+                <div class="layui-form-item">
+                    <div class="layui-inline layui-col-md6 layui-col-md-offset2">
                         <label class="layui-form-label">身份证号：</label>
-                        <div class="layui-input-inline">
+                        <div class="layui-input-block">
                             <input type="text" name="identity" id="identity" class="layui-input">
                         </div>
                     </div>

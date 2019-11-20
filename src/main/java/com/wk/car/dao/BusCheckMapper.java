@@ -2,6 +2,9 @@ package com.wk.car.dao;
 
 import com.wk.car.pojo.BusCheck;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wk.car.vo.BusCheckVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BusCheckMapper extends BaseMapper<BusCheck> {
 
+	List<BusCheck> queryAllCheck(BusCheckVo checkVo);
 }
