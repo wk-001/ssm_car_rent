@@ -4,13 +4,17 @@ import com.wk.sys.constast.SysConstast;
 import com.wk.sys.utils.AppFileUtils;
 import com.wk.sys.utils.DataGrid;
 import com.wk.sys.utils.RandomUtils;
+import com.wk.sys.utils.ZXingCodeUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -77,6 +81,19 @@ public class FileController {
 	public ResponseEntity<Object> downloadFile(String path, HttpServletResponse response) {
 		String oldName="";
 		return AppFileUtils.downloadFile(response, path, oldName);	
+	}
+
+	/**
+	 * 生成二维码
+	 * @param content
+	 * @param response
+	 */
+	@RequestMapping("createQrCode")
+	public void createQrCode(String content, HttpServletResponse response) throws IOException {
+		BufferedImage bim = ZXingCodeUtil.createCode(content);
+		ServletOutputStream outputStream = response.getOutputStream();
+		ImageIO.write(bim,"png",outputStream);
+		outputStream.close();
 	}
 
 }

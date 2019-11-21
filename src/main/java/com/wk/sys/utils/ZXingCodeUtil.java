@@ -33,7 +33,7 @@ public class ZXingCodeUtil {
 	 * @Description: 生成普通的二维码
 	 * @Date:
 	 */
-	public static BufferedImage createCode(String qrUrl) {
+	public static BufferedImage createCode(String qrContent) {
 		MultiFormatWriter multiFormatWriter = null;
 		BitMatrix bm = null;
 		BufferedImage image = null;
@@ -41,9 +41,11 @@ public class ZXingCodeUtil {
 		try {
 			multiFormatWriter = new MultiFormatWriter();
 			// 参数顺序分别为：编码内容，编码类型，生成图片宽度，生成图片高度，设置参数
-			bm = multiFormatWriter.encode(qrUrl, BarcodeFormat.QR_CODE, width, height, hints);
+			bm = multiFormatWriter.encode(qrContent, BarcodeFormat.QR_CODE, width, height, hints);
+			//得到生成的二维码高度和宽度
 			int w = bm.getWidth();
 			int h = bm.getHeight();
+			//创建图片 参数：图片宽、高、颜色类型
 			image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 
 			// 开始利用二维码数据创建Bitmap图片，分别设为黑（0xFFFFFFFF）白（0xFF000000）两色
@@ -63,11 +65,13 @@ public class ZXingCodeUtil {
 	 * @Description: 生成带logo的二维码
 	 * @Date:
 	 */
-	public static BufferedImage createCodeWithLogo(String qrUrl, String logoPath) {
-		BufferedImage bim = createCode(qrUrl);
+	public static BufferedImage createCodeWithLogo(String qrContent, String logoPath) {
+		//先生成一个普通的二维码
+		BufferedImage bim = createCode(qrContent);
 		try {
 			// 读取二维码图片，并构建绘图对象
 			BufferedImage image = bim;
+			//拿到可以操作当前图片的画笔
 			Graphics2D g = image.createGraphics();
 
 			// 读取Logo图片
@@ -83,8 +87,13 @@ public class ZXingCodeUtil {
 			// int x = (image.getWidth() - widthLogo);
 			// int y = (image.getHeight() - heightLogo);
 
-			//开始绘制图片
+			//开始绘制图片，参数：logo图片对象，X轴坐标，Y轴坐标，logo宽度，logo高度
 			g.drawImage(logo, x, y, widthLogo, heightLogo, null);
+			//边框大小
+			/*g.setStroke(new BasicStroke(2));
+			g.setColor(Color.white);
+			//白色圆角边框
+			g.drawRoundRect(x,y,widthLogo,heightLogo,15,15);*/
 			g.dispose();
 			logo.flush();
 			image.flush();
@@ -100,8 +109,8 @@ public class ZXingCodeUtil {
 	 * @Description: 生成带logo和文字的二维码
 	 * @Date:
 	 */
-	public static BufferedImage createCodeWithLogoAndText(String qrUrl, String logoPath, String text) {
-		BufferedImage image = createCodeWithLogo(qrUrl, logoPath);
+	public static BufferedImage createCodeWithLogoAndText(String qrContent, String logoPath, String text) {
+		BufferedImage image = createCodeWithLogo(qrContent, logoPath);
 		//把文字添加上去，文字不要太长，这里最多支持两行。太长就会自动截取啦
 		try {
 			if (text != null && !text.equals("")) {
@@ -146,35 +155,6 @@ public class ZXingCodeUtil {
 		return image;
 	}
 
-	/**
-	 * @Author:pibigstar
-	 * @Description: 构建二维码
-	 * @Date:
-	 */
-	private static BufferedImage create(String qrUrl, String logoPath, String text) {
-		MultiFormatWriter multiFormatWriter = null;
-		BitMatrix bm = null;
-		BufferedImage image = null;
-		Map<EncodeHintType, Object> hints = getDecodeHintType();
-		try {
-			multiFormatWriter = new MultiFormatWriter();
-			// 参数顺序分别为：编码内容，编码类型，生成图片宽度，生成图片高度，设置参数
-			bm = multiFormatWriter.encode(qrUrl, BarcodeFormat.QR_CODE, width, height, hints);
-			int w = bm.getWidth();
-			int h = bm.getHeight();
-			image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-
-			// 开始利用二维码数据创建Bitmap图片，分别设为黑（0xFFFFFFFF）白（0xFF000000）两色
-			for (int x = 0; x < w; x++) {
-				for (int y = 0; y < h; y++) {
-					image.setRGB(x, y, bm.get(x, y) ? QRCOLOR : BGCOLOR);
-				}
-			}
-		} catch (WriterException e) {
-			e.printStackTrace();
-		}
-		return image;
-	}
 
 	/**
 	 * 设置二维码的格式参数
@@ -183,10 +163,13 @@ public class ZXingCodeUtil {
 	private static Map<EncodeHintType, Object> getDecodeHintType() {
 		// 用于设置QR二维码参数
 		Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
-		// 设置QR二维码的纠错级别（H为最高级别）具体级别信息
+		/* 设置QR二维码的容错级别（H为最高级别）H:30% Q:25% M:15% L:7%
+		*  容错信息存储在二维码中，容错级别越高 信息占用空间越多 能储存的有用信息越少
+		*  logo也占一些比例 所以logo最大不能超过整个二维码的30%*/
 		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
-		// 设置编码方式
+		// 设置放入字符的编码方式
 		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+		//二维码边界空白大小
 		hints.put(EncodeHintType.MARGIN, 0);
 		hints.put(EncodeHintType.MAX_SIZE, 350);
 		hints.put(EncodeHintType.MIN_SIZE, 100);

@@ -13,20 +13,26 @@ public class NormalTest {
 
 	@Test
 	public void qrcodeTest() throws IOException {
-		String qrUrl = "http://www.bilibili.com";
-		String destFile = "D:\\qrcode\\" + new Date().getTime() + ".png";
+		String qrContent = "http://www.bilibili.com";
+		File destFile = new File("D:\\qrcode\\" + new Date().getTime() + ".png");
 		String logoPath = "D:\\qrcode\\cat.jpg";
 		String text = "哔哩哔哩";
 
+		if (!destFile.exists()) {
+			destFile.mkdirs();
+		}
+
 		//生成普通二维码，文件夹必须存在
-		BufferedImage bim = ZXingCodeUtil.createCode(qrUrl);
-		/*ImageIO.write(bim, "png", new File(destFile));
+		BufferedImage bim = ZXingCodeUtil.createCode(qrContent);
+		//ImageIO.write(bim, "png", destFile);
 
-		bim = ZXingCodeUtil.createCodeWithLogo(qrUrl,logoPath);
-		ImageIO.write(bim, "png", new File(destFile));*/
 
-		bim = ZXingCodeUtil.createCodeWithLogoAndText(qrUrl,logoPath,text);
-		ImageIO.write(bim, "png", new File(destFile));
+		//带图片的二维码
+		bim = ZXingCodeUtil.createCodeWithLogo(qrContent,logoPath);
+		ImageIO.write(bim, "png", destFile);
+
+		/*bim = ZXingCodeUtil.createCodeWithLogoAndText(qrContent,logoPath,text);
+		ImageIO.write(bim, "png", destFile);*/
 
 		System.out.println("done");
 	}
