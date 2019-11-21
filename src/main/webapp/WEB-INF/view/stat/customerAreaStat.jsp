@@ -15,7 +15,7 @@
 
 <body style="height: 100%; margin: 0">
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="container" style="height: 800px"></div>
+<div id="container" style="height: 650px;width: 98%"></div>
 
 </body>
 
@@ -34,7 +34,7 @@
             option = {
                 title: {
                     text: '客户地区统计',
-                    subtext: '来源真实',
+                    subtext: '真实有效',
                     x: 'center'
                 },
                 tooltip: {

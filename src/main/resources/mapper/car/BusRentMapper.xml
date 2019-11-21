@@ -49,5 +49,28 @@
         </where>
         order by createtime desc
     </select>
+    <select id="empAnnualSaleStat" resultType="com.wk.sys.pojo.Stat">
+        SELECT
+            opername NAME,
+            sum( price ) VALUE
+        FROM
+            `bus_rent`
+        WHERE
+            YEAR ( createtime ) = #{year}
+        GROUP BY
+        opername
+    </select>
+    <select id="companyAnnualSaleStat" resultType="com.wk.sys.pojo.Stat">
+        SELECT
+        MONTH	( createtime ) time,
+            concat( MONTH ( createtime ), '月' ) NAME,
+            sum( price ) VALUE
+        FROM
+            bus_rent
+        WHERE
+            YEAR ( createtime ) = #{year}
+        GROUP BY NAME
+        ORDER BY time
+    </select>
 
 </mapper>

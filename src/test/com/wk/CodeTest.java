@@ -2,12 +2,8 @@ package com.wk;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wk.car.service.BusCustomerService;
-import com.wk.sys.dao.SysMenuMapper;
 import com.wk.sys.pojo.SysUser;
-import com.wk.sys.service.SysRoleMenuService;
-import com.wk.sys.service.SysUserService;
-import com.wk.sys.vo.SysRoleVo;
-import org.apache.ibatis.annotations.Param;
+import com.wk.sys.service.StatService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,13 +35,7 @@ public class CodeTest {
     MockMvc mockMvc;
 
     @Resource
-    private SysUserService userService;
-
-    @Autowired
-    private SysRoleMenuService roleMenuService;
-
-    @Resource
-    private SysMenuMapper menuMapper;
+    private StatService statService;
 
     @Autowired
     private BusCustomerService customerService;
@@ -100,4 +90,5 @@ public class CodeTest {
         String[] ids = {"11231561591","421087133414144412"};
         customerService.removeByIds(Arrays.asList(ids));
     }
+
 }

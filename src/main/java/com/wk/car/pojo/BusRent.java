@@ -49,6 +49,8 @@ public class BusRent implements Serializable {
 
     private String opername;
 
+    //前台接收数据传递到后台
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     //后台生成指定格式日期显示到前台
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createtime;
