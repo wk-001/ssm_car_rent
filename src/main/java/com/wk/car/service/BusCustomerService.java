@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.wk.car.vo.BusCustomerVo;
 import com.wk.sys.utils.DataGrid;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -19,4 +21,6 @@ public interface BusCustomerService extends IService<BusCustomer> {
      * 查询所有顾客
      */
     DataGrid queryAllCustomer(BusCustomerVo busCustomerVo);
+
+	List<BusCustomer> queryCustomerList(BusCustomer busCustomer);
 }

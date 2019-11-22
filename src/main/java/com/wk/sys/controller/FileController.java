@@ -1,10 +1,10 @@
 package com.wk.sys.controller;
 
+import com.wk.car.pojo.BusCustomer;
+import com.wk.car.service.BusCustomerService;
 import com.wk.sys.constast.SysConstast;
-import com.wk.sys.utils.AppFileUtils;
-import com.wk.sys.utils.DataGrid;
-import com.wk.sys.utils.RandomUtils;
-import com.wk.sys.utils.ZXingCodeUtil;
+import com.wk.sys.utils.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +30,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("file")
 public class FileController {
+
+	@Autowired
+	private BusCustomerService busCustomerService;
 
 	/**
 	 * 上传文件，文件自动上传后的默认文件名后缀是".jpg_temp"，表示临时文件，
@@ -111,5 +115,13 @@ public class FileController {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@RequestMapping("exportCustomer")
+	public ResponseEntity<Object> exportCustomer(BusCustomer busCustomer,HttpServletResponse response){
+		List<BusCustomer> list = busCustomerService.queryCustomerList(busCustomer);
+		String fileName = "客户数据.xls";
+		String sheetName = "客户数据";
+		return ExportCustomerUtils.export(list,fileName,sheetName,response);
 	}
 }

@@ -78,6 +78,7 @@
                 <div class="layui-inline">
                     <button type="button" class="layui-btn layui-btn-normal layui-icon layui-icon-search" id="doSearch">查询</button>
                     <button type="reset" class="layui-btn layui-btn-warm layui-icon layui-icon-refresh">重置</button>
+                    <button type="reset" class="layui-btn layui-btn-warm layui-icon layui-icon-release" id="doExport">导出表格</button>
                 </div>
             </div>
         </form>
@@ -253,6 +254,12 @@
                 url:"<%=basePath%>customer/customerList?"+params,
                 page:{curr:1}           //每次查询从第一页开始
             });
+        })
+
+        //导出客户信息
+        $("#doExport").click(function () {
+            var params = $("#searchData").serialize();
+            location.href="<%=basePath%>file/exportCustomer?"+params;
         })
 
         //监听工具条  注：tool 是工具条事件名，dataTable 是 table 原始容器的属性 lay-filter="对应的值"

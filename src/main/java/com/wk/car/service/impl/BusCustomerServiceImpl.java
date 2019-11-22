@@ -33,4 +33,9 @@ public class BusCustomerServiceImpl extends ServiceImpl<BusCustomerMapper, BusCu
         List<BusCustomer> list = busCustomerMapper.queryAllCustomer(busCustomerVo);
         return new DataGrid(page.getTotal(),list);
     }
+
+	@Override
+	public List<BusCustomer> queryCustomerList(BusCustomer busCustomer) {
+		return busCustomerMapper.queryAllCustomer(busCustomer);
+	}
 }
