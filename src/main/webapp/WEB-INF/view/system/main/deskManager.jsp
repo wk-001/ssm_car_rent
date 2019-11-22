@@ -72,8 +72,14 @@
         </div>
     </div>
 </form>
+    <%--显示生成的二维码--%>
+    <img id="qrCodeImg" alt="">
 
-<img id="qrCodeImg" alt="">
+<form id="imgForm" method="post" enctype="multipart/form-data">
+    <input type="file" name="mf">
+    <button type="button" onclick="analyze()">解析二维码</button>
+</form>
+
 </body>
 
 <script type="text/javascript">
@@ -165,6 +171,20 @@
         $("#qrCodeImg").attr("src", "<%=basePath%>file/createQrCode?content=" + content);
     }
 
+    function analyze() {
+        var formData = new FormData($( "#imgForm" )[0]);
+        $.ajax({
+            url: '<%=basePath%>file/analyzeQrcode',
+            type: 'POST',
+            cache: false,
+            data: formData,
+            processData: false,     //data值是FormData对象，不需要对数据做处理
+            contentType: false,
+            success:function(res){
+                alert(res);
+            }
+        });
+    }
 </script>
 
 </html>

@@ -1,16 +1,17 @@
 package com.wk.sys.utils;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
+import com.google.zxing.*;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -176,4 +177,42 @@ public class ZXingCodeUtil {
 		return hints;
 	}
 
+	/**
+	 * 解析二维码文件
+	 */
+	public static String decodeByFile(String filePath){
+		File file = new File(filePath);
+		if(file.exists()){
+			try {
+				return decodeByFileStream(new FileInputStream(file));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		}else {
+			return null;
+		}
+	}
+
+	/**
+	 * 解析二维码文件流
+	 */
+	public static String decodeByFileStream(InputStream stream){
+		if(stream!=null){
+			try {
+				BufferedImage image = ImageIO.read(stream);
+				BufferedImageLuminanceSource source = new BufferedImageLuminanceSource(image);
+				BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+				HashMap hints = new HashMap<DecodeHintType, Object>();
+				hints.put(DecodeHintType.CHARACTER_SET, "UTF-8");
+				Result result = null;
+				result = new MultiFormatReader().decode(bitmap, hints);
+				String resultStr = result.getText();
+				return resultStr;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 }

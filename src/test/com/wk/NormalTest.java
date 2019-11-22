@@ -12,7 +12,7 @@ import java.util.Date;
 public class NormalTest {
 
 	@Test
-	public void qrcodeTest() throws IOException {
+	public void createQrcode() throws IOException {
 		String qrContent = "http://www.bilibili.com";
 		File destFile = new File("D:\\qrcode\\" + new Date().getTime() + ".png");
 		String logoPath = "D:\\qrcode\\cat.jpg";
@@ -24,17 +24,24 @@ public class NormalTest {
 
 		//生成普通二维码，文件夹必须存在
 		BufferedImage bim = ZXingCodeUtil.createCode(qrContent);
-		//ImageIO.write(bim, "png", destFile);
+		ImageIO.write(bim, "png", destFile);
 
 
 		//带图片的二维码
-		bim = ZXingCodeUtil.createCodeWithLogo(qrContent,logoPath);
-		ImageIO.write(bim, "png", destFile);
+		/*bim = ZXingCodeUtil.createCodeWithLogo(qrContent,logoPath);
+		ImageIO.write(bim, "png", destFile);*/
 
 		/*bim = ZXingCodeUtil.createCodeWithLogoAndText(qrContent,logoPath,text);
 		ImageIO.write(bim, "png", destFile);*/
 
 		System.out.println("done");
+	}
+
+	//解析二维码
+	@Test
+	public void analyzeQrcode(){
+		String result = ZXingCodeUtil.decodeByFile("D:\\qrcode\\1574390773739.png");
+		System.out.println("result = " + result);
 	}
 
 }

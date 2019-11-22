@@ -96,4 +96,20 @@ public class FileController {
 		outputStream.close();
 	}
 
+	/**
+	 * 解析二维码
+	 * @param mf
+	 * @return
+	 */
+	@RequestMapping("analyzeQrcode")
+	@ResponseBody
+	public String analyzeQrcode(MultipartFile mf){
+		try {
+			String result = ZXingCodeUtil.decodeByFileStream(mf.getInputStream());
+			return result;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
