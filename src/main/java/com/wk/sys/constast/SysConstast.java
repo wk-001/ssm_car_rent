@@ -8,6 +8,8 @@ package com.wk.sys.constast;
 public interface SysConstast {
 
 	String USER_LOGIN_ERROR_MSG = "用户名或密码不正确";
+
+	String CAPTCHA_ENTER_ERROR_MSG = "验证码输入错误";
 	/**
 	 * 可用状态
 	 */

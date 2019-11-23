@@ -9,10 +9,12 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class SysUserVo extends SysUser {
 
-		private Integer page;           //当前是第几页
+	private Integer page;           //当前是第几页
 
-		private Integer limit;          //每页多少条
+	private Integer limit;          //每页多少条
 
-		private Integer[] ids;			//接收多个ID，用于批量删除
+	private Integer[] ids;			//接收多个ID，用于批量删除
+
+	private String code;			//验证码
 
 }

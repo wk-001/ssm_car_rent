@@ -69,11 +69,11 @@
         <label for="pwd">密码</label>
         <input type="password" placeholder="请输入密码" autocomplete="off" name="pwd" class="layui-input" lay-verify="required">
     </div>
-    <%--<div class="layui-form-item input-item" id="imgCode">
+    <div class="layui-form-item input-item" id="imgCode">
         <label for="code">验证码</label>
-        <input type="text" placeholder="请输入验证码" autocomplete="off" id="code" class="layui-input">
-        <img src="../../images/code.jpg">
-    </div>--%>
+        <input type="text" placeholder="请输入验证码" autocomplete="off" name="code" class="layui-input">
+        <img src="<%=basePath%>login/getCode" onclick="this.src=this.src+'?'">      <%--onclick相当于重新请求一次--%>
+    </div>
     <div class="layui-form-item">
         <button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
     </div>

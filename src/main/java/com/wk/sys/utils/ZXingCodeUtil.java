@@ -5,6 +5,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import jdk.internal.util.xml.impl.Input;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -25,12 +26,11 @@ public class ZXingCodeUtil {
 	// 背景色
 	private static final int BGCOLOR = 0xFFFFFFFF;
 	// 二维码宽度
-	private static final int width = 400;
+	private static final int width = 150;
 	// 二维码高度
-	private static final int height = 400;
+	private static final int height = 150;
 
 	/**
-	 * @Author:pibigstar
 	 * @Description: 生成普通的二维码
 	 * @Date:
 	 */
@@ -62,9 +62,10 @@ public class ZXingCodeUtil {
 	}
 
 	/**
-	 * @Author:pibigstar
-	 * @Description: 生成带logo的二维码
-	 * @Date:
+	 * 根据本地图片生成带logo的二维码
+	 * @param qrContent	二维码内容
+	 * @param logoPath	文件路径
+	 * @return
 	 */
 	public static BufferedImage createCodeWithLogo(String qrContent, String logoPath) {
 		//先生成一个普通的二维码
@@ -106,7 +107,6 @@ public class ZXingCodeUtil {
 	}
 
 	/**
-	 * @Author:pibigstar
 	 * @Description: 生成带logo和文字的二维码
 	 * @Date:
 	 */

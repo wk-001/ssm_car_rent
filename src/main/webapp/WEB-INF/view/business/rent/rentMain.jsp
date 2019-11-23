@@ -86,9 +86,10 @@
 
             {{#  if(d.rentflag == 0){ }}
                 <a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="export">导出</a>
                 <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
             {{#  } else { }}
-                -
+                <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="export">导出</a>
             {{#  } }}
 
 
@@ -220,7 +221,7 @@
                     }
                 }
                 , {field: 'createtime', title: '注册时间', align: 'center'}
-                , {fixed: 'right', title: '操作', toolbar: '#dataToolBar', align: 'center'}
+                , {fixed: 'right', title: '操作',width:200, toolbar: '#dataToolBar', align: 'center'}
             ]]
             , done: function (res, curr, count) {
                 //如果当前页面数据全部删除，并且不是第一页的情况，就跳转到前一页
@@ -288,6 +289,9 @@
                 });
             } else if (layEvent === 'edit') { //编辑
                 openUpdRent(data);      //修改当前行数据
+            }else if (layEvent === 'export') {
+                //导出出租单 文件上传下载如果用ajax需要特殊处理
+                location.href="<%=basePath%>file/exportRent?rentid="+data.rentid;
             }
         });
 

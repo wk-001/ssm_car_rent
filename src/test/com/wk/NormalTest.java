@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 public class NormalTest {
@@ -24,12 +25,12 @@ public class NormalTest {
 
 		//生成普通二维码，文件夹必须存在
 		BufferedImage bim = ZXingCodeUtil.createCode(qrContent);
-		ImageIO.write(bim, "png", destFile);
+//		ImageIO.write(bim, "png", destFile);
 
 
 		//带图片的二维码
-		/*bim = ZXingCodeUtil.createCodeWithLogo(qrContent,logoPath);
-		ImageIO.write(bim, "png", destFile);*/
+		bim = ZXingCodeUtil.createCodeWithLogo(qrContent,logoPath);
+		ImageIO.write(bim, "png", destFile);
 
 		/*bim = ZXingCodeUtil.createCodeWithLogoAndText(qrContent,logoPath,text);
 		ImageIO.write(bim, "png", destFile);*/
@@ -42,6 +43,11 @@ public class NormalTest {
 	public void analyzeQrcode(){
 		String result = ZXingCodeUtil.decodeByFile("D:\\qrcode\\1574390773739.png");
 		System.out.println("result = " + result);
+	}
+
+	@Test
+	public void streamTest(){
+
 	}
 
 }

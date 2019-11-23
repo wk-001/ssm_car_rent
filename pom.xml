@@ -99,6 +99,14 @@
             <version>2.6</version>
         </dependency>
 
+        <!-- excel表格导出图片用到的依赖 -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.12</version>
+        </dependency>
+
+
         <!--数据库连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -205,6 +213,12 @@
             <version>4.1.0</version>
         </dependency>
 
+        <!-- hutool工具集 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.0.3</version>
+        </dependency>
 
     </dependencies>
 </project>

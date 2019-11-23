@@ -1,10 +1,15 @@
 package com.wk.sys.controller;
 
 import com.wk.car.pojo.BusCustomer;
+import com.wk.car.pojo.BusRent;
 import com.wk.car.service.BusCustomerService;
+import com.wk.car.service.BusRentService;
 import com.wk.sys.constast.SysConstast;
 import com.wk.sys.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +20,10 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +39,10 @@ import java.util.Map;
 public class FileController {
 
 	@Autowired
-	private BusCustomerService busCustomerService;
+	private BusCustomerService customerService;
+
+	@Autowired
+	private BusRentService rentService;
 
 	/**
 	 * 上传文件，文件自动上传后的默认文件名后缀是".jpg_temp"，表示临时文件，
@@ -117,11 +127,52 @@ public class FileController {
 		return null;
 	}
 
+	/**
+	 * 导出客户信息
+	 * @param busCustomer
+	 * @return
+	 */
 	@RequestMapping("exportCustomer")
-	public ResponseEntity<Object> exportCustomer(BusCustomer busCustomer,HttpServletResponse response){
-		List<BusCustomer> list = busCustomerService.queryCustomerList(busCustomer);
+	public ResponseEntity<Object> exportCustomer(BusCustomer busCustomer){
+		List<BusCustomer> list = customerService.queryCustomerList(busCustomer);
 		String fileName = "客户数据.xls";
 		String sheetName = "客户数据";
-		return ExportCustomerUtils.export(list,fileName,sheetName,response);
+
+		ByteArrayOutputStream stream = ExportExcelUtils.exportCustomer(list,sheetName);
+
+		//创建封装响应头信息的对象
+		HttpHeaders headers = getHttpHeaders(fileName);
+		return new ResponseEntity<Object>(stream.toByteArray(),headers, HttpStatus.CREATED);
+	}
+
+	/**
+	 * 导出出租单信息
+	 * @param rentid
+	 * @return
+	 */
+	@RequestMapping("exportRent")
+	public ResponseEntity<Object> exportRent(String rentid){
+		//根据出租单号查询出租单信息
+		BusRent rent = rentService.getById(rentid);
+		//根据身份证号查询客户信息
+		BusCustomer customer = customerService.getById(rent.getIdentity());
+		String fileName = customer.getCustname()+"的出租单.xls";
+		String sheetName = customer.getCustname()+"的出租单数据";
+
+		ByteArrayOutputStream stream = ExportExcelUtils.exportRent(rent,customer,sheetName);
+		HttpHeaders headers = getHttpHeaders(fileName);
+
+		return new ResponseEntity<Object>(stream.toByteArray(),headers, HttpStatus.CREATED);
+	}
+
+	//设置响应头信息
+	private HttpHeaders getHttpHeaders(String fileName) {
+		//创建封装响应头信息的对象
+		HttpHeaders headers = new HttpHeaders();
+		//封装响应内容类型 APPLICATION_OCTET_STREAM：响应的内容不限定
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		//设置下载文件名
+		headers.setContentDispositionFormData("attachment", fileName, Charset.forName("utf-8"));
+		return headers;
 	}
 }

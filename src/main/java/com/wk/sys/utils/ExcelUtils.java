@@ -39,7 +39,7 @@ public class ExcelUtils {
 		sheet.addMergedRegion(cellAddresses1);
 
 		//表格标题样式
-		HSSFCellStyle tableTitleStyle = titleStyle(workbook);
+		HSSFCellStyle titleStyle = titleStyle(workbook);
 
 		//4.在sheet中创建行
 		int row = 0;
@@ -48,7 +48,7 @@ public class ExcelUtils {
 		HSSFCell row1_cell1 = row1.createCell(0);
 		//往单元格中添加数据
 		row1_cell1.setCellValue("用户数据");
-		row1_cell1.setCellStyle(tableTitleStyle);
+		row1_cell1.setCellStyle(titleStyle);
 
 		//创建小标题样式
 		HSSFCellStyle subTitleStyle = subTitleStyle(workbook);
@@ -62,7 +62,7 @@ public class ExcelUtils {
 		row2_cell2.setCellStyle(subTitleStyle);
 
 		//创建表头样式
-		HSSFCellStyle titleStyle = tableTitleStyle(workbook);
+		HSSFCellStyle tableTitleStyle = tableTitleStyle(workbook);
 
 		//表头第三行
 		String[] titles = {"编号","姓名","性别","电话","密码"};
@@ -71,7 +71,7 @@ public class ExcelUtils {
 		for (int i = 0; i < titles.length; i++) {
 			HSSFCell cell = row3.createCell(i);
 			cell.setCellValue(titles[i]);
-			cell.setCellStyle(titleStyle);
+			cell.setCellStyle(tableTitleStyle);
 		}
 
 		//创建基础样式
