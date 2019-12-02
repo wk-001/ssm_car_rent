@@ -383,7 +383,7 @@
                         dataFormat: "list",  //配置data的风格为list
                         response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
                         checkbar: true,
-                        checkbarType: "no-all",// 默认就是all上下级联，其他的值为： no-all半选  p-casc   self  only
+                        checkbarType: "all",// 默认就是all上下级联，其他的值为： no-all半选  p-casc   self  only
                         skin: "layui"
                     });
                 }
